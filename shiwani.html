@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathFinder | Student Career Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --accent: #f43f5e;
+            --bg: #f8fafc;
+        }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: #1e293b;
+        }
+        /* Neubrutalism Design Elements */
+        .card-brutal {
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            transition: all 0.2s ease;
+        }
+        .card-brutal:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 10px 10px 0px #000;
+        }
+        .btn-brutal {
+            border: 2px solid #000;
+            box-shadow: 4px 4px 0px #000;
+        }
+        .btn-brutal:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px #000;
+        }
+        /* Android/Mobile Optimization */
+        @media (max-width: 768px) {
+            .hero-text { font-size: 2.5rem; }
+            .nav-menu { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b-4 border-black p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-800 tracking-tighter uppercase">Path<span class="text-indigo-600">Finder</span></h1>
+            <div class="nav-menu space-x-8 font-semibold uppercase text-sm tracking-widest">
+                <a href="#" class="hover:underline">Explore</a>
+                <a href="#" class="hover:underline">Roadmaps</a>
+                <a href="#" class="hover:underline">AI Counselor</a>
+            </div>
+            <button class="btn-brutal bg-indigo-600 text-white px-6 py-2 font-bold">LOGIN</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-7xl mx-auto px-4 py-16 text-center md:text-left md:flex items-center gap-12">
+        <div class="md:w-1/2">
+            <span class="bg-yellow-300 border-2 border-black px-3 py-1 font-bold text-xs uppercase mb-4 inline-block">2026 Edition</span>
+            <h2 class="hero-text text-5xl md:text-7xl font-800 leading-tight mb-6">DESIGN YOUR <br><span class="text-indigo-600 italic">FUTURE</span> TODAY.</h2>
+            <p class="text-xl text-slate-600 mb-8 max-w-lg">Get personalized roadmaps, skill analysis, and direct connections to industry mentors.</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button class="btn-brutal bg-rose-500 text-white px-8 py-4 font-bold text-lg">TAKE CAREER TEST</button>
+                <button class="btn-brutal bg-white px-8 py-4 font-bold text-lg">BROWSE PATHS</button>
+            </div>
+        </div>
+        <div class="md:w-1/2 mt-12 md:mt-0">
+            <div class="card-brutal bg-blue-100 p-8 rounded-xl relative">
+                <div class="w-full h-64 bg-slate-300 flex items-center justify-center rounded-lg border-2 border-dashed border-black">
+                    <span class="text-slate-500 font-bold">Interactive Career Roadmap Visualization</span>
+                </div>
+                <div class="absolute -top-4 -right-4 bg-yellow-400 p-4 card-brutal font-bold">100+ Roles</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Career Categories -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <h3 class="text-3xl font-800 mb-12 uppercase tracking-tighter">Popular Industries</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div class="card-brutal bg-emerald-100 p-6 rounded-lg cursor-pointer">
+                <div class="text-4xl mb-4">🚀</div>
+                <h4 class="text-xl font-bold mb-2">Space Economy</h4>
+                <p class="text-sm text-slate-700">Explore roles in satellite management and lunar logistics.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card-brutal bg-purple-100 p-6 rounded-lg cursor-pointer">
+                <div class="text-4xl mb-4">🧠</div>
+                <h4 class="text-xl font-bold mb-2">AI Engineering</h4>
+                <p class="text-sm text-slate-700">Building the next generation of neural networks.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card-brutal bg-orange-100 p-6 rounded-lg cursor-pointer">
+                <div class="text-4xl mb-4">🌱</div>
+                <h4 class="text-xl font-bold mb-2">Green Energy</h4>
+                <p class="text-sm text-slate-700">Sustainable engineering and climate solutions.</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="card-brutal bg-cyan-100 p-6 rounded-lg cursor-pointer">
+                <div class="text-4xl mb-4">🎨</div>
+                <h4 class="text-xl font-bold mb-2">Creative Tech</h4>
+                <p class="text-sm text-slate-700">Where design meets immersive spatial computing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Counselor Interaction -->
+    <section class="bg-indigo-900 py-16 text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <h3 class="text-4xl font-800 mb-6 uppercase">Talk to AI Counselors</h3>
+                <p class="text-indigo-200 text-lg mb-8">Our AI agents are trained on real-world hiring data from 2026. Get instant answers to "How do I become a..."</p>
+                <div class="bg-indigo-800 p-6 rounded-xl border-l-4 border-yellow-400">
+                    <p class="italic text-indigo-100">"Hey AI, I love drawing but also math. What's a good career for me?"</p>
+                    <p class="mt-4 font-bold text-yellow-400">Try asking our bot!</p>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full">
+                <div class="bg-white text-black p-6 rounded-2xl card-brutal w-full max-w-md mx-auto">
+                    <div class="space-y-4 mb-4 h-48 overflow-y-auto">
+                        <div class="bg-slate-100 p-3 rounded-lg text-sm w-3/4">Hello! I'm your career bot. Tell me your interests!</div>
+                        <div class="bg-indigo-600 text-white p-3 rounded-lg text-sm w-3/4 self-end ml-auto">I'm interested in Biotech.</div>
+                    </div>
+                    <input type="text" placeholder="Type your dream..." class="w-full border-2 border-black p-3 rounded-lg mb-4">
+                    <button class="w-full bg-black text-white p-3 font-bold rounded-lg uppercase">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center py-12 text-slate-500 text-sm">
+        <p>© 2026 PathFinder Guidance Platform. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
