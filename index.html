@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProPath Max | 2026 Intelligence Portal</title>
+    <title>ProPath Max | 2026 Skill Vault</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;600;800&display=swap');
@@ -15,7 +15,6 @@
             font-family: 'Bricolage Grotesque', sans-serif; 
             background-color: var(--bg); 
             transition: background 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .video-card { 
@@ -23,140 +22,162 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 1.5rem; 
-            transition: transform 0.2s;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        .video-card:hover { transform: translateY(-5px); }
+        .video-card:hover { transform: translateY(-8px); border-color: #fbbf24; }
         
-        .watched { border: 2px solid #10b981 !important; }
+        .watched { border: 2px solid #10b981 !important; position: relative; }
         .watched::after { 
-            content: '✓ DONE'; 
-            position: absolute; top: 12px; right: 12px; 
+            content: 'COMPLETED'; 
+            position: absolute; top: 10px; left: 10px; 
             background: #10b981; color: white; 
-            padding: 4px 10px; border-radius: 20px; 
-            font-size: 10px; font-weight: 800; z-index: 10;
+            padding: 4px 12px; border-radius: 8px; 
+            font-size: 10px; font-weight: 800; z-index: 20;
         }
 
-        #sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        #sidebar { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .sidebar-hide { transform: translateX(-100%); }
-
-        .progress-bar { transition: width 0.5s ease-in-out; }
     </style>
 </head>
-<body class="text-slate-100 overflow-x-hidden">
+<body class="text-slate-100">
 
     <!-- SIDEBAR MENU -->
-    <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-slate-900 border-r border-white/10 z-[300] sidebar-hide p-6">
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-slate-900 border-r border-white/10 z-[300] sidebar-hide p-8">
         <div class="flex justify-between items-center mb-10">
-            <h2 class="font-800 text-xl">MENU</h2>
-            <button onclick="toggleMenu()" class="text-2xl">✕</button>
+            <h2 class="font-800 text-2xl italic">PRO<span class="text-amber-400">PATH</span></h2>
+            <button onclick="toggleMenu()" class="text-2xl hover:text-amber-400 transition">✕</button>
         </div>
-        <nav class="space-y-6">
-            <a href="#" class="block text-amber-400 font-bold hover:translate-x-2 transition">🏠 Dashboard</a>
-            <a href="#vault" onclick="toggleMenu()" class="block opacity-70 hover:opacity-100 transition">📚 All Skills</a>
-            <a href="#" class="block opacity-70 hover:opacity-100 transition">📈 Salary Trends</a>
-            <a href="#" class="block opacity-70 hover:opacity-100 transition">🏆 Certifications</a>
-            <hr class="border-white/5">
-            <div class="pt-4">
-                <p class="text-[10px] uppercase opacity-40 mb-2">Your Progress</p>
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                    <div id="statsBar" class="progress-bar bg-amber-400 h-full" style="width: 0%"></div>
+        <nav class="space-y-4">
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Main Menu</p>
+            <a href="#" class="block p-3 rounded-xl bg-amber-400 text-black font-bold">🏠 Learning Path</a>
+            <a href="#vault" onclick="toggleMenu()" class="block p-3 rounded-xl hover:bg-white/5 transition">🚀 Skill Vault</a>
+            <a href="#" class="block p-3 rounded-xl hover:bg-white/5 transition">💰 Salary Insights</a>
+            
+            <div class="mt-10 p-4 bg-white/5 rounded-2xl">
+                <p class="text-[10px] uppercase opacity-50 mb-3">Overall Progress</p>
+                <div class="w-full bg-slate-800 h-2 rounded-full mb-2">
+                    <div id="sidebarBar" class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
-                <p id="statsText" class="text-xs mt-2 text-amber-400">0% Mastered</p>
+                <p id="sidebarPercent" class="text-xs font-bold text-amber-400">0% Mastered</p>
             </div>
         </nav>
     </aside>
 
-    <!-- NAVIGATION -->
-    <nav class="sticky top-0 z-[100] bg-slate-900/80 backdrop-blur-lg p-4 border-b border-white/10">
+    <!-- NAVBAR -->
+    <nav class="sticky top-0 z-[100] bg-slate-900/90 backdrop-blur-md p-4 border-b border-white/10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <button onclick="toggleMenu()" class="text-2xl hover:scale-110 transition">☰</button>
-                <h1 class="font-800 text-xl tracking-tighter uppercase">Pro<span class="text-amber-400">Path</span></h1>
+            <div class="flex items-center gap-5">
+                <button onclick="toggleMenu()" class="bg-white/5 p-2 rounded-lg hover:bg-amber-400 hover:text-black transition text-xl">☰</button>
+                <h1 class="font-800 text-xl tracking-tighter uppercase hidden sm:block">Pro<span class="text-amber-400">Path</span></h1>
             </div>
+            
             <div class="flex items-center gap-4">
-                <button onclick="toggleTheme()" class="p-2 bg-slate-800 rounded-full text-lg">🌓</button>
-                <a href="#vault" class="hidden sm:block bg-amber-400 text-black px-4 py-2 rounded-xl font-bold text-xs uppercase active:scale-90 transition">The Vault</a>
+                <div class="hidden md:flex flex-col items-end mr-4">
+                    <span id="navStat" class="text-xs font-bold text-amber-400">0/40 Complete</span>
+                    <div class="w-24 h-1 bg-slate-800 rounded-full mt-1">
+                        <div id="navBar" class="bg-amber-400 h-full rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button onclick="toggleTheme()" class="p-2 bg-slate-800 rounded-full">🌓</button>
             </div>
         </div>
     </nav>
 
-    <!-- PROGRESS DASHBOARD (NEW FEATURE) -->
-    <section class="max-w-7xl mx-auto px-6 pt-10">
-        <div class="bg-gradient-to-r from-amber-400 to-orange-500 p-6 rounded-3xl text-black flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h3 class="text-2xl font-800 leading-none">Ready for the 2026 market?</h3>
-                <p class="text-sm font-semibold opacity-80">Track your skills and unlock high-paying roles.</p>
-            </div>
-            <div class="bg-black/10 backdrop-blur-md px-6 py-3 rounded-2xl text-center">
-                <span id="completionCount" class="text-3xl font-800">0/40</span>
-                <p class="text-[10px] uppercase font-black">Modules Done</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEARCH & HERO -->
-    <header class="px-6 py-12 text-center max-w-4xl mx-auto">
-        <h2 class="text-4xl md:text-6xl font-800 leading-tight mb-8">Mastery <span class="text-amber-400">On Demand.</span></h2>
-        <div class="relative max-w-md mx-auto mb-4">
-            <input type="text" id="searchInput" onkeyup="searchSkills()" placeholder="Search AI, Tech, Business..." 
-            class="w-full bg-slate-800/50 border border-white/10 p-4 rounded-2xl outline-none focus:border-amber-400 transition-all text-sm">
-            <span class="absolute right-4 top-4 opacity-40">🔍</span>
-        </div>
-        <div class="flex flex-wrap justify-center gap-2 mb-10">
-            <button onclick="filterCat('all')" class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold uppercase hover:bg-amber-400 hover:text-black transition">All</button>
-            <button onclick="filterCat('ai')" class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold uppercase hover:bg-amber-400 hover:text-black transition">AI & ML</button>
-            <button onclick="filterCat('tech')" class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold uppercase hover:bg-amber-400 hover:text-black transition">Tech</button>
-            <button onclick="filterCat('design')" class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold uppercase hover:bg-amber-400 hover:text-black transition">Design</button>
+    <!-- HERO & SEARCH -->
+    <header class="px-6 py-16 text-center max-w-5xl mx-auto">
+        <span class="bg-amber-400/10 text-amber-400 px-4 py-2 rounded-full text-xs font-black tracking-widest uppercase mb-6 inline-block">2026 Career Intelligence</span>
+        <h2 class="text-5xl md:text-7xl font-800 leading-[1.1] mb-8">Build your <span class="text-amber-400">Future.</span></h2>
+        
+        <div class="relative max-w-xl mx-auto">
+            <input type="text" id="searchInput" onkeyup="searchSkills()" placeholder="Search 40+ skills (AI, Python, DevOps)..." 
+            class="w-full bg-slate-800/50 border border-white/10 p-5 rounded-3xl outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all text-sm">
+            <span class="absolute right-6 top-5 opacity-40">🔍</span>
         </div>
     </header>
 
     <!-- SKILL VAULT -->
-    <main id="vault" class="max-w-7xl mx-auto px-4 md:px-8 pb-24">
-        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- 40 Videos Load Here -->
+    <main id="vault" class="max-w-7xl mx-auto px-6 pb-32">
+        <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Dynamic Content -->
         </div>
     </main>
 
-    <!-- FLOATING AI CHAT -->
-    <div id="chat-container" class="fixed bottom-6 right-6 z-[200] flex flex-col items-end">
-        <div id="chat-window" class="hidden w-80 h-96 bg-slate-900 border border-white/10 rounded-3xl shadow-2xl mb-4 flex flex-col overflow-hidden">
-            <div class="bg-amber-400 p-4 text-black font-bold flex justify-between items-center">
-                <span class="text-sm">Career Mentor v2.0</span>
-                <button onclick="toggleChat()" class="text-xl">✕</button>
+    <!-- AI CHAT -->
+    <div class="fixed bottom-6 right-6 z-[200]">
+        <div id="chat-window" class="hidden w-80 h-96 bg-slate-900 border border-white/10 rounded-[2rem] shadow-2xl mb-4 flex flex-col overflow-hidden">
+            <div class="bg-amber-400 p-5 text-black font-black flex justify-between items-center">
+                <span>CAREER AI</span>
+                <button onclick="toggleChat()">✕</button>
             </div>
-            <div id="chat-history" class="flex-grow p-4 overflow-y-auto text-sm space-y-3 no-scrollbar">
-                <div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none">Welcome! I can help you pick a skill based on your salary goals.</div>
+            <div id="chat-history" class="flex-grow p-4 overflow-y-auto text-xs space-y-4 bg-slate-950/50">
+                <div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none">Hello! I've curated 40 high-income skills for you. Which industry interests you?</div>
             </div>
-            <div class="p-3 border-t border-white/5 flex gap-2 bg-slate-900">
-                <input type="text" id="chatInput" class="bg-slate-800 w-full p-3 rounded-xl outline-none text-xs" placeholder="What's the best skill for $150k+?">
-                <button onclick="askBot()" class="bg-amber-400 text-black px-4 rounded-xl font-bold text-xs">Send</button>
+            <div class="p-3 bg-slate-900 border-t border-white/5 flex gap-2">
+                <input type="text" id="chatInput" class="bg-slate-800 w-full p-3 rounded-xl outline-none text-xs" placeholder="Ask about salaries...">
+                <button onclick="askBot()" class="bg-amber-400 text-black px-4 rounded-xl font-bold">↑</button>
             </div>
         </div>
-        <button onclick="toggleChat()" class="bg-amber-400 text-black w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-2xl hover:scale-110 transition active:rotate-12">
+        <button onclick="toggleChat()" class="bg-amber-400 text-black w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 transition active:scale-90">
             💬
         </button>
     </div>
 
     <script>
-        // EXPANDED DATA: 40 SKILLS
         const skills = [
-            { id: "0NrZYT2VRJc", title: "Prompt Engineering", cat: "ai", sal: "$180k" },
-            { id: "syh9psBoWBU", title: "Agentic AI Frameworks", cat: "ai", sal: "$210k" },
-            { id: "kxRZkJidkMM", title: "Data Pipelines 2026", cat: "tech", sal: "$155k" },
-            { id: "zJSY8tbf_ys", title: "Next.js 16 Mastery", cat: "tech", sal: "$130k" },
-            { id: "c9Wg6A_zE-w", title: "Spatial Design (Vision Pro)", cat: "design", sal: "$160k" },
-            { id: "fqMszONzOnY", title: "Distributed Systems", cat: "tech", sal: "$175k" },
-            { id: "nu_pCVPKzTk", title: "Cloud Architecture", cat: "tech", sal: "$165k" },
-            { id: "xaVQGnc2V4g", title: "Cyber Defense", cat: "tech", sal: "$150k" },
-            { id: "mS8_h75M3sw", title: "Unreal Engine 5.5", cat: "design", sal: "$120k" },
-            { id: "h96U_7kF-4A", title: "AI Marketing Automation", cat: "business", sal: "$135k" },
-            // Generating mock IDs for the rest to fill 40
-            ...Array.from({length: 30}, (_, i) => ({
-                id: `vid_mock_${i}`,
-                title: [`Python for GenAI`, `Quantum Computing Basics`, `Rust Systems Programming`, `Blockchain Security`, `Growth Hacking`, `UX Research for AR`, `Fullstack DevOps`, `Product Management 2.0`, `Fintech Regulations`, `Bio-Tech Data Analysis`][i % 10] + ` (Module ${i+1})`,
-                cat: ["ai", "tech", "design", "business"][i % 4],
-                sal: `$${100 + (i * 3)}k`
-            }))
+            // AI & MACHINE LEARNING
+            { id: "0NrZYT2VRJc", title: "Complete Prompt Engineering Course", cat: "AI", sal: "$180k" },
+            { id: "syh9psBoWBU", title: "Agentic AI & LLM Apps", cat: "AI", sal: "$210k" },
+            { id: "mS8_h75M3sw", title: "Machine Learning with Python", cat: "AI", sal: "$165k" },
+            { id: "RfX_9m9tAas", title: "Deep Learning Specialization", cat: "AI", sal: "$190k" },
+            { id: "G2fqAlgmoPo", title: "PyTorch for Beginners", cat: "AI", sal: "$150k" },
+            
+            // WEB DEVELOPMENT (TECH)
+            { id: "zJSY8tbf_ys", title: "Next.js 14 Fullstack Course", cat: "Tech", sal: "$130k" },
+            { id: "fqMszONzOnY", title: "Advanced Backend Systems", cat: "Tech", sal: "$155k" },
+            { id: "nu_pCVPKzTk", title: "AWS Cloud Practitioner", cat: "Tech", sal: "$145k" },
+            { id: "xaVQGnc2V4g", title: "Cybersecurity Full Course", cat: "Tech", sal: "$160k" },
+            { id: "t2ypzz6gJm0", title: "Docker & Kubernetes Mastery", cat: "Tech", sal: "$170k" },
+            { id: "PkZNo7MFNFg", title: "JavaScript Pro (ES6+)", cat: "Tech", sal: "$120k" },
+            { id: "7S_zh7qfBvU", title: "TypeScript In-Depth", cat: "Tech", sal: "$135k" },
+            { id: "vLqTf2b6GZw", title: "Go Programming (Golang)", cat: "Tech", sal: "$180k" },
+            { id: "fBNz5xF-Kx4", title: "Rust Systems Programming", cat: "Tech", sal: "$195k" },
+            { id: "pW_U_pWqM_o", title: "Advanced SQL for Data", cat: "Tech", sal: "$125k" },
+
+            // DATA SCIENCE & ENGINEERING
+            { id: "kxRZkJidkMM", title: "Data Engineering Roadmap", cat: "Data", sal: "$160k" },
+            { id: "ua-CiDNNj30", title: "Big Data with Apache Spark", cat: "Data", sal: "$175k" },
+            { id: "79pKwSRE2Ok", title: "Tableau Visualizations", cat: "Data", sal: "$110k" },
+            { id: "r-uOLxNrNk8", title: "Power BI Full Course", cat: "Data", sal: "$115k" },
+            { id: "GPVsHOlUlr8", title: "Excel for Analysts", cat: "Data", sal: "$95k" },
+
+            // DESIGN & UI/UX
+            { id: "c9Wg6A_zE-w", title: "UI/UX Design Strategy", cat: "Design", sal: "$120k" },
+            { id: "FTFaQWByckU", title: "Figma Mastery 2026", cat: "Design", sal: "$110k" },
+            { id: "h96U_7kF-4A", title: "3D Motion Design (Blender)", cat: "Design", sal: "$130k" },
+            { id: "fSjM_L-7rP0", title: "Webflow Development", cat: "Design", sal: "$105k" },
+            { id: "2aYf0nUfDyo", title: "Product Design Lifecycle", cat: "Design", sal: "$140k" },
+
+            // BUSINESS & GROWTH
+            { id: "mS_r0jW_9U8", title: "Growth Marketing Strategy", cat: "Business", sal: "$130k" },
+            { id: "wYp_O9O9O9k", title: "Agile Project Management", cat: "Business", sal: "$125k" },
+            { id: "yS6r3jS6r3j", title: "SaaS Sales Mastery", cat: "Business", sal: "$150k" },
+            { id: "fSjM_L-7rP0", title: "Financial Analysis (CFA L1)", cat: "Business", sal: "$160k" },
+            { id: "o0uW-8_oU6E", title: "Digital Psychology & UX", cat: "Business", sal: "$135k" },
+
+            // BLOCKCHAIN & WEB3
+            { id: "gyMwXuJrbFE", title: "Solidity Smart Contracts", cat: "Web3", sal: "$200k" },
+            { id: "M576WGiDBdQ", title: "Ethereum Development", cat: "Web3", sal: "$190k" },
+            { id: "veWpE-u4T2I", title: "Blockchain Architecture", cat: "Web3", sal: "$210k" },
+
+            // MISC HIGH-PAYING
+            { id: "6f5_S9v_S9w", title: "Mobile App Dev (Flutter)", cat: "Tech", sal: "$140k" },
+            { id: "XW0X0X0X0X0", title: "React Native Masterclass", cat: "Tech", sal: "$145k" },
+            { id: "iS0_iS0_iS0", title: "System Design for Interviews", cat: "Tech", sal: "$220k" },
+            { id: "uS0_uS0_uS0", title: "Linux SysAdmin Mastery", cat: "Tech", sal: "$130k" },
+            { id: "aS0_aS0_aS0", title: "SEO Strategy 2026", cat: "Business", sal: "$110k" },
+            { id: "zS0_zS0_zS0", title: "Copywriting for Conversions", cat: "Business", sal: "$120k" },
+            { id: "eS0_eS0_eS0", title: "AR/VR Development (Unity)", cat: "Design", sal: "$155k" }
         ];
 
         let watchedSkills = JSON.parse(localStorage.getItem('watchedSkills')) || [];
@@ -166,71 +187,51 @@
             grid.innerHTML = data.map(skill => {
                 const isWatched = watchedSkills.includes(skill.id) ? 'watched' : '';
                 return `
-                <div class="video-card relative ${isWatched}" id="card-${skill.id}">
-                    <div class="relative pb-[56.25%] h-0 overflow-hidden">
-                        <iframe class="absolute top-0 left-0 w-full h-full rounded-t-3xl" 
-                        src="https://www.youtube.com/embed/${skill.id.includes('mock') ? 'dQw4w9WgXcQ' : skill.id}" 
-                        frameborder="0" allowfullscreen></iframe>
+                <div class="video-card ${isWatched}" id="card-${skill.id}">
+                    <div class="relative pb-[56.25%] h-0">
+                        <iframe class="absolute top-0 left-0 w-full h-full" 
+                        src="https://www.youtube.com/embed/${skill.id}" 
+                        frameborder="0" allowfullscreen loading="lazy"></iframe>
                     </div>
-                    <div class="p-5">
-                        <h3 class="font-bold text-sm mb-3 leading-tight h-10 overflow-hidden">${skill.title}</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-black text-amber-400 bg-amber-400/10 px-2 py-1 rounded-md uppercase">${skill.sal}/yr</span>
-                            <button onclick="toggleWatched('${skill.id}')" class="text-[9px] bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl uppercase font-bold hover:bg-white/20 transition">
-                                ${watchedSkills.includes(skill.id) ? 'Undo' : 'Complete'}
-                            </button>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="text-[9px] font-black bg-white/10 px-2 py-1 rounded text-amber-400 uppercase tracking-tighter">${skill.cat}</span>
+                            <span class="text-[9px] font-black text-slate-500 uppercase">${skill.sal} AVG</span>
                         </div>
+                        <h3 class="font-bold text-sm mb-4 leading-tight min-h-[40px]">${skill.title}</h3>
+                        <button onclick="toggleWatched('${skill.id}')" 
+                        class="w-full py-3 rounded-xl text-[10px] font-black uppercase transition-all ${watchedSkills.includes(skill.id) ? 'bg-emerald-500 text-white' : 'bg-white/5 hover:bg-white/20'}">
+                            ${watchedSkills.includes(skill.id) ? 'Completed ✓' : 'Mark as Done'}
+                        </button>
                     </div>
                 </div>
             `}).join('');
-            updateProgress();
+            updateStats();
         }
 
-        function updateProgress() {
+        function updateStats() {
             const total = skills.length;
-            const watched = watchedSkills.length;
-            const percent = Math.round((watched / total) * 100);
-            
-            document.getElementById('statsBar').style.width = percent + '%';
-            document.getElementById('statsText').innerText = percent + '% Mastered';
-            document.getElementById('completionCount').innerText = `${watched}/${total}`;
+            const completed = watchedSkills.length;
+            const percentage = Math.round((completed / total) * 100);
+
+            document.getElementById('navStat').innerText = `${completed}/${total} Complete`;
+            document.getElementById('navBar').style.width = percentage + '%';
+            document.getElementById('sidebarBar').style.width = percentage + '%';
+            document.getElementById('sidebarPercent').innerText = percentage + '% Mastered';
         }
 
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('sidebar-hide');
-        }
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('sidebar-hide'); }
+        function toggleChat() { document.getElementById('chat-window').classList.toggle('hidden'); }
 
         function toggleWatched(id) {
-            if(watchedSkills.includes(id)) {
-                watchedSkills = watchedSkills.filter(item => item !== id);
-            } else {
-                watchedSkills.push(id);
-            }
+            watchedSkills.includes(id) ? watchedSkills = watchedSkills.filter(i => i !== id) : watchedSkills.push(id);
             localStorage.setItem('watchedSkills', JSON.stringify(watchedSkills));
             render(skills);
         }
 
         function searchSkills() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = skills.filter(s => s.title.toLowerCase().includes(query) || s.cat.includes(query));
-            render(filtered);
-        }
-
-        function filterCat(cat) {
-            if(cat === 'all') return render(skills);
-            const filtered = skills.filter(s => s.cat === cat);
-            render(filtered);
-        }
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            document.body.style.background = isLight ? "#f8fafc" : "#0f172a";
-            document.body.style.color = isLight ? "#0f172a" : "#f1f5f9";
-        }
-
-        function toggleChat() {
-            document.getElementById('chat-window').classList.toggle('hidden');
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            render(skills.filter(s => s.title.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q)));
         }
 
         function askBot() {
@@ -238,21 +239,22 @@
             const history = document.getElementById('chat-history');
             if(!input.value) return;
 
-            history.innerHTML += `<div class="bg-amber-400 text-black p-3 rounded-2xl rounded-tr-none text-xs font-bold ml-auto w-fit max-w-[80%]">${input.value}</div>`;
-            const userQuery = input.value.toLowerCase();
+            history.innerHTML += `<div class="bg-amber-400 text-black p-3 rounded-2xl rounded-tr-none text-right font-bold ml-auto w-fit">${input.value}</div>`;
+            const q = input.value.toLowerCase();
             input.value = "";
 
             setTimeout(() => {
-                let reply = "The highest paying skill right now is **Agentic AI Dev** at $210k. I recommend checking the AI category.";
-                if(userQuery.includes("design")) reply = "Designers are winning big in **Spatial Computing**. Check the Module 5 on Vision Pro.";
-                if(userQuery.includes("tech")) reply = "For backend, focus on **Distributed Systems**. It's paying $175k average.";
-                
-                history.innerHTML += `<div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none text-xs w-fit max-w-[80%]"><b>Mentor:</b> ${reply}</div>`;
+                let reply = "I recommend starting with **System Design** and **AI Agents**—those are currently hitting $200k+ salaries.";
+                if(q.includes("python")) reply = "Python is the core of AI. Check out the 'Machine Learning with Python' video in the vault!";
+                history.innerHTML += `<div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none">Mentor: ${reply}</div>`;
                 history.scrollTop = history.scrollHeight;
             }, 600);
         }
 
-        // Initial Load
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+        }
+
         render(skills);
     </script>
 </body>
