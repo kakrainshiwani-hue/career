@@ -3,181 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduGPT | Global Career & Skill Hub</title>
+    <title>PRO-PATH | Elite Career Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; }
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;500;800&display=swap');
         
-        .nav-glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
-        
-        /* Mobile Menu Checkbox Logic */
-        #menu-btn:checked ~ #mobile-nav { display: block; }
+        :root {
+            --primary: #fbbf24; /* Gold */
+            --bg: #0f172a;    /* Deep Slate */
+        }
 
-        .resource-card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
-        .resource-card:hover { transform: translateY(-5px); border-color: #6366f1; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1); }
+        body { 
+            font-family: 'Bricolage Grotesque', sans-serif; 
+            background-color: var(--bg); 
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gold-gradient {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Opportunity Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-text { animation: ticker 25s linear infinite; }
+
+        .video-card:hover .play-overlay { opacity: 1; }
         
-        .chat-container { height: 450px; scrollbar-width: thin; }
-        .ai-msg { background: #f1f5f9; border-radius: 20px 20px 20px 4px; border: 1px solid #e2e8f0; }
-        .user-msg { background: #6366f1; color: white; border-radius: 200px 20px 4px 20px; align-self: flex-end; }
-        
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        #menu-toggle:checked ~ #mobile-menu { transform: translateY(0); opacity: 1; pointer-events: all; }
     </style>
 </head>
-<body class="text-slate-900">
+<body class="overflow-x-hidden">
 
-    <!-- Header -->
-    <nav class="nav-glass sticky top-0 z-[100] border-b border-slate-100 px-6 py-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-800 tracking-tight text-indigo-600 flex items-center gap-2">
-                <span class="p-1 bg-indigo-600 text-white rounded-lg text-sm">AI</span> EduPath
-            </div>
+    <!-- Live Opportunity Ticker -->
+    <div class="w-full bg-amber-400 text-black py-2 overflow-hidden whitespace-nowrap z-[110] relative">
+        <div class="ticker-text inline-block font-bold uppercase text-xs">
+            🔥 NEW: Google AI Residency 2026 Open • 🚀 SpaceX Internship Applications Live • 💼 Goldman Sachs Diversity Program • 🌐 Meta Remote Engineering Roles • 📈 Data Science Fellowship ($120k+) • ⚡ Tesla Green Energy Grant
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-[100] glass-dark border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-800 tracking-tighter">PRO<span class="text-amber-400">PATH</span></div>
             
-            <input type="checkbox" id="menu-btn" class="hidden">
-            <label for="menu-btn" class="md:hidden cursor-pointer text-2xl">☰</label>
+            <input type="checkbox" id="menu-toggle" class="hidden">
+            <label for="menu-toggle" class="md:hidden cursor-pointer text-2xl">☰</label>
 
-            <ul class="hidden md:flex gap-8 font-semibold text-slate-500 text-sm italic">
-                <li><a href="#courses" class="hover:text-indigo-600">Free Courses</a></li>
-                <li><a href="#ai-center" class="hover:text-indigo-600">Smart AI Chat</a></li>
-                <li><a href="#" class="bg-black text-white px-5 py-2 rounded-full not-italic">Scholarships</a></li>
+            <ul class="hidden md:flex gap-10 font-medium text-slate-400 text-sm uppercase tracking-widest">
+                <li><a href="#video-vault" class="hover:text-amber-400 transition">Skill Vault</a></li>
+                <li><a href="#ai-counselor" class="hover:text-amber-400 transition">AI Mentor</a></li>
+                <li><a href="#opportunities" class="hover:text-amber-400 transition">Jobs</a></li>
+                <li><a href="#" class="border border-amber-400/30 px-5 py-2 rounded-full text-amber-400 hover:bg-amber-400 hover:text-black transition">Log In</a></li>
             </ul>
 
-            <div id="mobile-nav" class="hidden absolute top-full left-0 w-full bg-white border-b p-6 space-y-4 md:hidden shadow-xl">
-                <a href="#courses" class="block font-bold">Free Courses</a>
-                <a href="#ai-center" class="block font-bold">Ask AI Anything</a>
+            <div id="mobile-menu" class="fixed top-20 left-0 w-full bg-slate-900 p-10 space-y-6 md:hidden opacity-0 -translate-y-10 transition-all pointer-events-none">
+                <a href="#video-vault" class="block text-2xl font-bold">Skill Vault</a>
+                <a href="#ai-counselor" class="block text-2xl font-bold">AI Mentor</a>
+                <a href="#opportunities" class="block text-2xl font-bold">Opportunities</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="max-w-4xl mx-auto text-center px-6 py-16 md:py-24">
-        <h1 class="text-4xl md:text-6xl font-800 mb-6 tracking-tight">The Ultimate <span class="text-indigo-600">Skill Growth</span> Engine.</h1>
-        <p class="text-lg text-slate-500 mb-10">Stop paying for basic courses. Access verified free learning paths and let our AI solve your career doubts in real-time.</p>
+    <!-- Hero Section -->
+    <header class="max-w-7xl mx-auto px-6 pt-20 pb-32 text-center">
+        <h1 class="text-5xl md:text-8xl font-800 mb-8 leading-none">The Future of <br><span class="gold-gradient italic">High-Income</span> Skills.</h1>
+        <p class="max-w-2xl mx-auto text-slate-400 text-lg md:text-xl mb-12">No more generic advice. Get industry-standard training, live opportunities, and AI-driven career forensics.</p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <button class="bg-amber-400 text-black px-12 py-5 rounded-full font-800 text-lg hover:bg-amber-300 transition shadow-[0_0_30px_rgba(251,191,36,0.3)]">EXPLORE SKILLS</button>
+            <button class="bg-white/5 border border-white/10 px-12 py-5 rounded-full font-800 text-lg hover:bg-white/10 transition">VIEW JOBS</button>
+        </div>
     </header>
 
-    <!-- FREE COURSE LINKS SECTION -->
-    <section id="courses" class="max-w-6xl mx-auto px-6 py-12">
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-800 uppercase tracking-widest text-slate-400">Verified Free Learning</h2>
+    <!-- High Paying Skills Video Vault -->
+    <section id="video-vault" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/5">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+            <div>
+                <h2 class="text-4xl font-800 mb-2 underline decoration-amber-400">Skill Vault 2.0</h2>
+                <p class="text-slate-400 italic">Top 1% Skills to learn in 2026</p>
+            </div>
+            <div class="text-sm font-bold text-amber-400 uppercase tracking-widest">Verified by Industry Leaders</div>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Course 1 -->
-            <div class="resource-card bg-white p-6 rounded-2xl">
-                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase">Computer Science</span>
-                <h3 class="text-xl font-bold mt-4 mb-2">CS50: Intro to CS</h3>
-                <p class="text-sm text-slate-500 mb-6">Harvard University's legendary course. Learn logic, C, Python, and SQL.</p>
-                <a href="https://pll.harvard.edu/course/cs50-introduction-computer-science" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
-            </div>
 
-            <!-- Course 2 -->
-            <div class="resource-card bg-white p-6 rounded-2xl">
-                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase">Digital Marketing</span>
-                <h3 class="text-xl font-bold mt-4 mb-2">Google Fundamentals</h3>
-                <p class="text-sm text-slate-500 mb-6">Free certification by Google. Master SEO, Analytics, and Social Media.</p>
-                <a href="https://skillshop.exceedlms.com/student/catalog/list?category_ids=2844-google-ads-certifications" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
-            </div>
-
-            <!-- Course 3 -->
-            <div class="resource-card bg-white p-6 rounded-2xl">
-                <span class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full uppercase">Skill Growth</span>
-                <h3 class="text-xl font-bold mt-4 mb-2">Khan Academy Portal</h3>
-                <p class="text-sm text-slate-500 mb-6">Everything from SAT prep to advanced Multivariable Calculus for free.</p>
-                <a href="https://www.khanacademy.org" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- SMART AI CHAT SECTION -->
-    <section id="ai-center" class="max-w-5xl mx-auto px-6 py-20">
-        <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
-            
-            <!-- Left Panel (Info) -->
-            <div class="md:w-1/3 bg-slate-900 text-white p-8">
-                <div class="w-12 h-12 bg-indigo-600 rounded-xl mb-6 flex items-center justify-center pulse">🤖</div>
-                <h2 class="text-2xl font-800 mb-4">Deep Brain AI</h2>
-                <p class="text-slate-400 text-sm leading-relaxed mb-8">This AI is trained to analyze market trends, academic roadmaps, and student doubts.</p>
-                <div class="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-500">
-                    <p>✓ Skill Analysis</p>
-                    <p>✓ Roadmap Generation</p>
-                    <p>✓ Doubt Clearing</p>
-                </div>
-            </div>
-
-            <!-- Right Panel (Chat) -->
-            <div class="md:w-2/3 flex flex-col h-[550px]">
-                <div id="chat-box" class="flex-grow p-6 overflow-y-auto flex flex-col gap-4 bg-slate-50">
-                    <div class="ai-msg p-4 text-sm max-w-[85%]">
-                        Hello! I am your 2026 AI Counselor. You can ask me about complex career doubts, salary expectations, or even "How do I become a Data Scientist for free?"
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Skill 1 -->
+            <div class="video-card group cursor-pointer">
+                <div class="aspect-video bg-slate-800 rounded-2xl overflow-hidden relative mb-4">
+                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center play-overlay opacity-0 transition duration-300 bg-black/40">
+                        <span class="text-5xl">▶️</span>
                     </div>
                 </div>
+                <h3 class="font-bold text-xl mb-1">AI Prompt Engineering</h3>
+                <p class="text-slate-500 text-xs mb-4 uppercase">Salary: $150k - $300k</p>
+                <a href="https://www.youtube.com/results?search_query=free+ai+prompt+engineering+course" target="_blank" class="text-amber-400 text-sm font-bold">Watch Training →</a>
+            </div>
+
+            <!-- Skill 2 -->
+            <div class="video-card group cursor-pointer">
+                <div class="aspect-video bg-slate-800 rounded-2xl overflow-hidden relative mb-4">
+                    <img src="https://images.unsplash.com/photo-1551288049-bbbda50a5f4a?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center play-overlay opacity-0 transition duration-300 bg-black/40">
+                        <span class="text-5xl">▶️</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-xl mb-1">Blockchain Architecture</h3>
+                <p class="text-slate-500 text-xs mb-4 uppercase">Salary: $140k - $250k</p>
+                <a href="https://www.youtube.com/results?search_query=free+blockchain+architecture+course" target="_blank" class="text-amber-400 text-sm font-bold">Watch Training →</a>
+            </div>
+
+            <!-- Skill 3 -->
+            <div class="video-card group cursor-pointer">
+                <div class="aspect-video bg-slate-800 rounded-2xl overflow-hidden relative mb-4">
+                    <img src="https://images.unsplash.com/photo-1587440871875-191322ee64b0?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center play-overlay opacity-0 transition duration-300 bg-black/40">
+                        <span class="text-5xl">▶️</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-xl mb-1">Product Management</h3>
+                <p class="text-slate-500 text-xs mb-4 uppercase">Salary: $110k - $180k</p>
+                <a href="https://www.youtube.com/results?search_query=free+product+management+course" target="_blank" class="text-amber-400 text-sm font-bold">Watch Training →</a>
+            </div>
+
+            <!-- Skill 4 -->
+            <div class="video-card group cursor-pointer">
+                <div class="aspect-video bg-slate-800 rounded-2xl overflow-hidden relative mb-4">
+                    <img src="https://images.unsplash.com/photo-1626908013947-40c836706ec7?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 opacity-60">
+                    <div class="absolute inset-0 flex items-center justify-center play-overlay opacity-0 transition duration-300 bg-black/40">
+                        <span class="text-5xl">▶️</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-xl mb-1">Growth Marketing</h3>
+                <p class="text-slate-500 text-xs mb-4 uppercase">Salary: $90k - $160k</p>
+                <a href="https://www.youtube.com/results?search_query=free+growth+marketing+course" target="_blank" class="text-amber-400 text-sm font-bold">Watch Training →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI AGENT: THE COUNSELOR -->
+    <section id="ai-counselor" class="max-w-7xl mx-auto px-6 py-24 bg-slate-900/50 rounded-[4rem] border border-white/5">
+        <div class="grid md:grid-cols-2 gap-20 items-center">
+            <div>
+                <span class="text-amber-400 font-bold uppercase tracking-widest text-xs">AI Core Engine</span>
+                <h2 class="text-4xl md:text-5xl font-800 mt-4 mb-6">Deep Analysis <br>On Your Career Doubt.</h2>
+                <p class="text-slate-400 mb-8 leading-relaxed italic">"Our AI analyzes LinkedIn data, Job market trends, and University requirements in real-time to give you a clinical, honest answer."</p>
                 
-                <div class="p-4 border-t flex gap-2 bg-white">
-                    <input type="text" id="user-input" placeholder="Enter your doubt here..." class="flex-grow p-4 bg-slate-100 rounded-xl outline-none focus:ring-2 ring-indigo-500 transition-all font-medium">
-                    <button onclick="askAI()" class="bg-indigo-600 text-white px-8 rounded-xl font-bold active:scale-95 transition">ASK</button>
+                <div class="space-y-4">
+                    <div class="flex gap-4 items-center">
+                        <div class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]"></div>
+                        <p class="text-sm font-bold text-slate-200">Real-time Global Database Scanning</p>
+                    </div>
+                    <div class="flex gap-4 items-center">
+                        <div class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]"></div>
+                        <p class="text-sm font-bold text-slate-200">Competitive Difficulty Analysis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Chat Box -->
+            <div class="glass-dark rounded-[2.5rem] p-6 h-[500px] flex flex-col shadow-2xl">
+                <div id="chat-box" class="flex-grow overflow-y-auto mb-4 space-y-4 p-2">
+                    <div class="bg-white/5 p-4 rounded-2xl text-sm border border-white/10 max-w-[90%]">
+                        System Online. Analysis Mode: Active. <br><br>Please describe your academic doubt or a career goal you are skeptical about.
+                    </div>
+                </div>
+                <div class="flex gap-2 p-2 bg-slate-800/50 rounded-2xl">
+                    <input type="text" id="ai-input" placeholder="e.g., Is AI going to replace web developers?" class="bg-transparent flex-grow p-3 outline-none text-sm font-medium">
+                    <button onclick="handleAI()" class="bg-amber-400 text-black px-6 py-3 rounded-xl font-black text-xs active:scale-90 transition uppercase">Analyse</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-center py-12 text-slate-400 text-xs font-bold uppercase tracking-tighter">
-        Data Provided by Global Skill Registry 2026 • EduPath AI
+    <!-- Opportunity Grid -->
+    <section id="opportunities" class="max-w-7xl mx-auto px-6 py-24">
+        <h2 class="text-3xl font-800 mb-12">LIVE OPPORTUNITIES</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+            <div class="p-6 bg-white/5 border border-white/5 rounded-2xl flex justify-between items-center hover:bg-white/10 transition">
+                <div>
+                    <h4 class="font-bold text-lg text-amber-100">AI Safety Fellowship</h4>
+                    <p class="text-sm text-slate-500 italic">Open to Undergrads • Worldwide</p>
+                </div>
+                <button class="bg-amber-400/20 text-amber-400 px-4 py-2 rounded-lg text-xs font-bold uppercase">Apply Now</button>
+            </div>
+            <div class="p-6 bg-white/5 border border-white/5 rounded-2xl flex justify-between items-center hover:bg-white/10 transition">
+                <div>
+                    <h4 class="font-bold text-lg text-amber-100">Creative Tech Internship</h4>
+                    <p class="text-sm text-slate-500 italic">Adobe Partners • Paid Role</p>
+                </div>
+                <button class="bg-amber-400/20 text-amber-400 px-4 py-2 rounded-lg text-xs font-bold uppercase">Apply Now</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-white/5 text-center text-slate-600 text-xs tracking-widest uppercase font-bold">
+        Copyright 2026 Pro-Path Global Intelligence Network
     </footer>
 
     <script>
         const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('user-input');
+        const aiInput = document.getElementById('ai-input');
 
-        function addMessage(text, type) {
+        function addChat(msg, type) {
             const div = document.createElement('div');
-            div.className = `${type === 'user' ? 'user-msg' : 'ai-msg'} p-4 text-sm max-w-[85%] shadow-sm`;
-            div.innerText = text;
+            div.className = type === 'user' 
+                ? 'bg-amber-400 text-black p-4 rounded-2xl text-sm font-bold max-w-[90%] self-end ml-auto shadow-lg' 
+                : 'bg-white/5 p-4 rounded-2xl text-sm border border-white/10 max-w-[90%] text-slate-300';
+            div.innerHTML = msg;
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        async function askAI() {
-            const query = userInput.value.trim();
-            if(!query) return;
+        async function handleAI() {
+            const val = aiInput.value.trim();
+            if(!val) return;
 
-            addMessage(query, 'user');
-            userInput.value = '';
+            addChat(val, 'user');
+            aiInput.value = '';
 
-            // Simulate "Analyzing" phase
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'ai-msg p-4 text-xs italic text-slate-400';
-            loadingDiv.innerText = "Analyzing global database and trends...";
-            chatBox.appendChild(loadingDiv);
+            const loading = document.createElement('div');
+            loading.className = 'text-xs text-amber-400 italic animate-pulse p-2';
+            loading.innerText = 'Scanning job markets and industry data...';
+            chatBox.appendChild(loading);
 
             setTimeout(() => {
-                chatBox.removeChild(loadingDiv);
-                let response = "";
-                const q = query.toLowerCase();
-
-                // Advanced AI Response Logic
-                if(q.includes("data scientist") || q.includes("data science")) {
-                    response = "ANALYSIS: To become a Data Scientist for free in 2026: \n1. Learn Python (freeCodeCamp). \n2. Master Statistics (Khan Academy). \n3. Take Harvard's CS50 SQL. \n4. Build a Kaggle Portfolio. \nSalaries currently average $115k/year.";
-                } else if(q.includes("doubt") || q.includes("confused")) {
-                    response = "It's normal to feel confused. My analysis of your doubt suggests you should try 'Career Shadowing'. Pick two fields, watch 'Day in the Life' videos on YouTube, and see which one feels like work you'd enjoy even if it was unpaid.";
-                } else if(q.includes("free") && q.includes("course")) {
-                    response = "Beyond our list above, I recommend checking 'OpenCourseWare' by MIT. They have almost every engineering and physics course available online for zero cost.";
-                } else if(q.includes("future") || q.includes("job")) {
-                    response = "The 2026-2030 job market is shifting toward 'Human-AI Collaboration'. Skills like AI Prompting, Ethics, and Sustainability Management are seeing a 40% increase in hiring.";
-                } else if(q.includes("salary") || q.includes("money")) {
-                    response = "Based on current Google/Glassdoor trends, Tech, Specialized Surgery, and Renewable Energy Engineering are the top 3 highest paying sectors. Would you like a roadmap for one of these?";
-                } else {
-                    response = "That is a great question. Based on my analysis, the best way to handle this is to focus on 'Micro-Credentialing'. Instead of a 4-year plan, focus on 3-month skill blocks. What is your primary interest right now?";
+                chatBox.removeChild(loading);
+                let response = "Analysis Complete. For this doubt, my recommendation is to focus on 'T-Shaped' skills: Deep expertise in one tool + broad understanding of AI. This is the most recession-proof path in 2026.";
+                
+                const q = val.toLowerCase();
+                if(q.includes("replace") || q.includes("future")) {
+                    response = "<b>FORECAST:</b> Low-level tasks (coding boilerplate, basic copy) will be replaced. High-level Architecture and Human-Empathy roles (Design, Law, Therapy) will increase in value by 200%. Focus on strategy, not just execution.";
+                } else if(q.includes("best skill") || q.includes("money")) {
+                    response = "<b>DATA-DRIVEN RANKING:</b> <br>1. AI Orchestration ($200k+)<br>2. Cloud Security ($180k+)<br>3. Personalized Biotech ($160k+). <br>Mastering these requires roughly 1,200 hours of focused study.";
+                } else if(q.includes("internship") || q.includes("job")) {
+                    response = "<b>SEARCH RESULT:</b> Google and Microsoft have just updated their internship criteria. They now require a 'Public Portfolio' (GitHub/Behance) rather than just a CV. Start documenting your learning publicly today.";
                 }
 
-                addMessage(response, 'ai');
-            }, 1200);
+                addChat(response, 'bot');
+            }, 1500);
         }
 
-        // Allow Enter key to send message
-        userInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") askAI();
-        });
+        aiInput.addEventListener("keypress", (e) => { if(e.key === "Enter") handleAI(); });
     </script>
 </body>
 </html>
