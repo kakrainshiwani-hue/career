@@ -3,139 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PathFinder | Student Career Hub</title>
+    <title>EduPath | AI Career Mentor</title>
+    <!-- Tailwind CSS for Layout -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #4f46e5;
-            --accent: #f43f5e;
-            --bg: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.7);
+            --accent: #6366f1;
         }
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg);
-            color: #1e293b;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #f5f7ff 0%, #c3dafe 100%);
+            min-height: 100vh;
         }
-        /* Neubrutalism Design Elements */
-        .card-brutal {
-            border: 3px solid #000;
-            box-shadow: 6px 6px 0px #000;
-            transition: all 0.2s ease;
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
         }
-        .card-brutal:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 10px 10px 0px #000;
+        .career-gradient {
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .btn-brutal {
-            border: 2px solid #000;
-            box-shadow: 4px 4px 0px #000;
+        /* Android specific touch ripples */
+        .touch-target:active {
+            transform: scale(0.98);
+            transition: 0.1s;
         }
-        .btn-brutal:active {
-            transform: translate(2px, 2px);
-            box-shadow: 0px 0px 0px #000;
-        }
-        /* Android/Mobile Optimization */
-        @media (max-width: 768px) {
-            .hero-text { font-size: 2.5rem; }
-            .nav-menu { display: none; } /* Simplified for mobile */
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-    <!-- Navigation -->
-    <nav class="bg-white border-b-4 border-black p-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-800 tracking-tighter uppercase">Path<span class="text-indigo-600">Finder</span></h1>
-            <div class="nav-menu space-x-8 font-semibold uppercase text-sm tracking-widest">
-                <a href="#" class="hover:underline">Explore</a>
-                <a href="#" class="hover:underline">Roadmaps</a>
-                <a href="#" class="hover:underline">AI Counselor</a>
-            </div>
-            <button class="btn-brutal bg-indigo-600 text-white px-6 py-2 font-bold">LOGIN</button>
+    <!-- Header / Navigation -->
+    <header class="max-w-6xl mx-auto flex justify-between items-center mb-10">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">E</div>
+            <h1 class="text-xl font-800 tracking-tight">EduPath</h1>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="max-w-7xl mx-auto px-4 py-16 text-center md:text-left md:flex items-center gap-12">
-        <div class="md:w-1/2">
-            <span class="bg-yellow-300 border-2 border-black px-3 py-1 font-bold text-xs uppercase mb-4 inline-block">2026 Edition</span>
-            <h2 class="hero-text text-5xl md:text-7xl font-800 leading-tight mb-6">DESIGN YOUR <br><span class="text-indigo-600 italic">FUTURE</span> TODAY.</h2>
-            <p class="text-xl text-slate-600 mb-8 max-w-lg">Get personalized roadmaps, skill analysis, and direct connections to industry mentors.</p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button class="btn-brutal bg-rose-500 text-white px-8 py-4 font-bold text-lg">TAKE CAREER TEST</button>
-                <button class="btn-brutal bg-white px-8 py-4 font-bold text-lg">BROWSE PATHS</button>
-            </div>
-        </div>
-        <div class="md:w-1/2 mt-12 md:mt-0">
-            <div class="card-brutal bg-blue-100 p-8 rounded-xl relative">
-                <div class="w-full h-64 bg-slate-300 flex items-center justify-center rounded-lg border-2 border-dashed border-black">
-                    <span class="text-slate-500 font-bold">Interactive Career Roadmap Visualization</span>
-                </div>
-                <div class="absolute -top-4 -right-4 bg-yellow-400 p-4 card-brutal font-bold">100+ Roles</div>
-            </div>
-        </div>
+        <nav class="hidden md:flex gap-8 font-semibold text-slate-600">
+            <a href="#" class="hover:text-indigo-600">Roadmaps</a>
+            <a href="#" class="hover:text-indigo-600">Mentors</a>
+            <a href="#" class="hover:text-indigo-600">Scholarships</a>
+        </nav>
+        <button class="bg-indigo-600 text-white px-6 py-2.5 rounded-full font-bold shadow-lg hover:bg-indigo-700 transition">Get Started</button>
     </header>
 
-    <!-- Career Categories -->
-    <section class="max-w-7xl mx-auto px-4 py-16">
-        <h3 class="text-3xl font-800 mb-12 uppercase tracking-tighter">Popular Industries</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Card 1 -->
-            <div class="card-brutal bg-emerald-100 p-6 rounded-lg cursor-pointer">
-                <div class="text-4xl mb-4">🚀</div>
-                <h4 class="text-xl font-bold mb-2">Space Economy</h4>
-                <p class="text-sm text-slate-700">Explore roles in satellite management and lunar logistics.</p>
-            </div>
-            <!-- Card 2 -->
-            <div class="card-brutal bg-purple-100 p-6 rounded-lg cursor-pointer">
-                <div class="text-4xl mb-4">🧠</div>
-                <h4 class="text-xl font-bold mb-2">AI Engineering</h4>
-                <p class="text-sm text-slate-700">Building the next generation of neural networks.</p>
-            </div>
-            <!-- Card 3 -->
-            <div class="card-brutal bg-orange-100 p-6 rounded-lg cursor-pointer">
-                <div class="text-4xl mb-4">🌱</div>
-                <h4 class="text-xl font-bold mb-2">Green Energy</h4>
-                <p class="text-sm text-slate-700">Sustainable engineering and climate solutions.</p>
-            </div>
-            <!-- Card 4 -->
-            <div class="card-brutal bg-cyan-100 p-6 rounded-lg cursor-pointer">
-                <div class="text-4xl mb-4">🎨</div>
-                <h4 class="text-xl font-bold mb-2">Creative Tech</h4>
-                <p class="text-sm text-slate-700">Where design meets immersive spatial computing.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Counselor Interaction -->
-    <section class="bg-indigo-900 py-16 text-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2">
-                <h3 class="text-4xl font-800 mb-6 uppercase">Talk to AI Counselors</h3>
-                <p class="text-indigo-200 text-lg mb-8">Our AI agents are trained on real-world hiring data from 2026. Get instant answers to "How do I become a..."</p>
-                <div class="bg-indigo-800 p-6 rounded-xl border-l-4 border-yellow-400">
-                    <p class="italic text-indigo-100">"Hey AI, I love drawing but also math. What's a good career for me?"</p>
-                    <p class="mt-4 font-bold text-yellow-400">Try asking our bot!</p>
+    <main class="max-w-6xl mx-auto">
+        <!-- Hero Section -->
+        <section class="grid md:grid-cols-2 gap-12 items-center mb-20">
+            <div>
+                <span class="bg-indigo-100 text-indigo-700 px-4 py-1 rounded-full text-sm font-bold mb-4 inline-block">NEW: AI Career Chat 2.0</span>
+                <h2 class="text-4xl md:text-6xl font-800 mb-6 leading-tight">Your Future <br><span class="career-gradient">Unlocked.</span></h2>
+                <p class="text-slate-600 text-lg mb-8">Stop guessing. Get a data-driven roadmap tailored to your personality and the 2026 job market.</p>
+                
+                <!-- Search Box (Android Optimized) -->
+                <div class="glass-card p-2 flex items-center gap-2 pr-4 shadow-xl">
+                    <input type="text" placeholder="Try 'Quantum Computing' or 'UI Design'..." class="bg-transparent w-full p-3 outline-none font-medium">
+                    <button class="bg-black text-white p-3 rounded-xl touch-target">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="md:w-1/2 w-full">
-                <div class="bg-white text-black p-6 rounded-2xl card-brutal w-full max-w-md mx-auto">
-                    <div class="space-y-4 mb-4 h-48 overflow-y-auto">
-                        <div class="bg-slate-100 p-3 rounded-lg text-sm w-3/4">Hello! I'm your career bot. Tell me your interests!</div>
-                        <div class="bg-indigo-600 text-white p-3 rounded-lg text-sm w-3/4 self-end ml-auto">I'm interested in Biotech.</div>
+
+            <!-- Dashboard Preview (Interactive Component) -->
+            <div class="glass-card p-6 border-2 border-white">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold">Popular Paths</h3>
+                    <span class="text-indigo-600 text-sm font-bold cursor-pointer">View All</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-3 hover:bg-white/50 rounded-2xl transition cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-2xl">🤖</div>
+                        <div>
+                            <p class="font-bold">AI Ethicist</p>
+                            <p class="text-xs text-slate-500">High Growth • $140k avg</p>
+                        </div>
                     </div>
-                    <input type="text" placeholder="Type your dream..." class="w-full border-2 border-black p-3 rounded-lg mb-4">
-                    <button class="w-full bg-black text-white p-3 font-bold rounded-lg uppercase">Send Message</button>
+                    <div class="flex items-center gap-4 p-3 hover:bg-white/50 rounded-2xl transition cursor-pointer">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-2xl">🔋</div>
+                        <div>
+                            <p class="font-bold">Grid Engineer</p>
+                            <p class="text-xs text-slate-500">Essential • Renewable Sector</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-3 hover:bg-white/50 rounded-2xl transition cursor-pointer">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-2xl">🧬</div>
+                        <div>
+                            <p class="font-bold">Bio-Informatics</p>
+                            <p class="text-xs text-slate-500">Research • Top Universities</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="text-center py-12 text-slate-500 text-sm">
-        <p>© 2026 PathFinder Guidance Platform. All rights reserved.</p>
-    </footer>
+        <!-- Dynamic Statistics (All in one row) -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 text-center">
+            <div class="glass-card p-6">
+                <p class="text-3xl font-800 text-indigo-600">98%</p>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Success Rate</p>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-3xl font-800 text-indigo-600">500+</p>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Career Paths</p>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-3xl font-800 text-indigo-600">12M</p>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">Students</p>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-3xl font-800 text-indigo-600">24/7</p>
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mt-1">AI Support</p>
+            </div>
+        </section>
+    </main>
 
+    <!-- Simple JavaScript for Interactions -->
+    <script>
+        // Placeholder for future logic
+        document.querySelector('button').addEventListener('click', () => {
+            alert('Welcome to EduPath! Initializing your personalized career engine...');
+        });
+    </script>
 </body>
 </html>
