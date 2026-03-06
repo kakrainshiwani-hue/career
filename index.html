@@ -3,215 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerMaster 2026 | All-in-One Guidance</title>
+    <title>EduGPT | Global Career & Skill Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #fafafa; }
         
-        /* MOBILE MENU FIX: Works even without complex JS */
-        #menu-toggle:checked ~ #mobile-menu { display: flex; }
-        #menu-toggle:checked ~ label .hamburger { background: transparent; }
-        #menu-toggle:checked ~ label .hamburger::before { transform: rotate(45deg); top: 0; }
-        #menu-toggle:checked ~ label .hamburger::after { transform: rotate(-45deg); top: 0; }
-
-        .hamburger, .hamburger::before, .hamburger::after {
-            content: ''; display: block; background: #1e293b;
-            height: 3px; width: 25px; position: relative; transition: all 0.3s;
-        }
-        .hamburger::before { top: -8px; position: absolute; }
-        .hamburger::after { top: 8px; position: absolute; }
-
-        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        .nav-glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
         
-        /* Chat UI styling */
-        .chat-bubble { border-radius: 18px; padding: 12px 16px; margin-bottom: 8px; max-width: 85%; }
-        .bot { background: #e2e8f0; color: #1e293b; border-bottom-left-radius: 2px; }
-        .user { background: #4f46e5; color: white; border-bottom-right-radius: 2px; align-self: flex-end; }
+        /* Mobile Menu Checkbox Logic */
+        #menu-btn:checked ~ #mobile-nav { display: block; }
+
+        .resource-card { transition: all 0.3s ease; border: 1px solid #e2e8f0; }
+        .resource-card:hover { transform: translateY(-5px); border-color: #6366f1; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1); }
+        
+        .chat-container { height: 450px; scrollbar-width: thin; }
+        .ai-msg { background: #f1f5f9; border-radius: 20px 20px 20px 4px; border: 1px solid #e2e8f0; }
+        .user-msg { background: #6366f1; color: white; border-radius: 200px 20px 4px 20px; align-self: flex-end; }
+        
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
-<body>
+<body class="text-slate-900">
 
-    <!-- Responsive Navbar -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-[100] px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center relative">
-            <div class="text-2xl font-900 tracking-tighter text-indigo-600">CAREER<span class="text-slate-900">PRO</span></div>
+    <!-- Header -->
+    <nav class="nav-glass sticky top-0 z-[100] border-b border-slate-100 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-800 tracking-tight text-indigo-600 flex items-center gap-2">
+                <span class="p-1 bg-indigo-600 text-white rounded-lg text-sm">AI</span> EduPath
+            </div>
             
-            <!-- Hidden Checkbox for Mobile Menu Logic -->
-            <input type="checkbox" id="menu-toggle" class="hidden">
-            
-            <!-- Desktop Links -->
-            <ul class="hidden md:flex space-x-8 font-bold text-slate-600 uppercase text-xs tracking-widest">
-                <li><a href="#explore" class="hover:text-indigo-600">Career Paths</a></li>
-                <li><a href="#how-to-learn" class="hover:text-indigo-600">Learning Center</a></li>
-                <li><a href="#ai-counselor" class="hover:text-indigo-600">AI Counselor</a></li>
+            <input type="checkbox" id="menu-btn" class="hidden">
+            <label for="menu-btn" class="md:hidden cursor-pointer text-2xl">☰</label>
+
+            <ul class="hidden md:flex gap-8 font-semibold text-slate-500 text-sm italic">
+                <li><a href="#courses" class="hover:text-indigo-600">Free Courses</a></li>
+                <li><a href="#ai-center" class="hover:text-indigo-600">Smart AI Chat</a></li>
+                <li><a href="#" class="bg-black text-white px-5 py-2 rounded-full not-italic">Scholarships</a></li>
             </ul>
 
-            <!-- Hamburger Icon (Android/Mobile) -->
-            <label for="menu-toggle" class="md:hidden cursor-pointer p-2 z-[110]">
-                <div class="hamburger"></div>
-            </label>
-
-            <!-- Mobile Menu Overlay -->
-            <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-b border-slate-200 flex-col p-6 space-y-4 shadow-xl md:hidden">
-                <a href="#explore" class="font-bold text-lg">Browse Careers</a>
-                <a href="#how-to-learn" class="font-bold text-lg">How to Learn</a>
-                <a href="#ai-counselor" class="font-bold text-lg">AI Chat</a>
-                <button class="bg-indigo-600 text-white p-4 rounded-xl font-bold uppercase">Join Community</button>
+            <div id="mobile-nav" class="hidden absolute top-full left-0 w-full bg-white border-b p-6 space-y-4 md:hidden shadow-xl">
+                <a href="#courses" class="block font-bold">Free Courses</a>
+                <a href="#ai-center" class="block font-bold">Ask AI Anything</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="max-w-7xl mx-auto px-6 py-16 text-center md:text-left md:flex items-center gap-12">
-        <div class="md:w-1/2">
-            <h1 class="text-5xl md:text-7xl font-900 leading-none mb-6 text-slate-900">Find your path <br><span class="text-indigo-600 underline">without the stress.</span></h1>
-            <p class="text-lg text-slate-500 mb-8">Access free roadmaps, skills assessment, and the 2026 industry outlook in one portal.</p>
-            <button class="bg-indigo-600 text-white px-10 py-5 rounded-2xl font-black shadow-2xl hover:bg-indigo-700 transition w-full md:w-auto uppercase tracking-tighter">Get Free Career Roadmap</button>
-        </div>
-        <div class="hidden md:block md:w-1/2">
-            <div class="bg-indigo-100 rounded-[3rem] p-12 relative overflow-hidden">
-                <div class="w-full h-64 bg-white rounded-3xl shadow-inner flex items-center justify-center text-8xl">🚀</div>
-                <div class="absolute top-4 right-4 bg-yellow-400 font-bold px-4 py-2 rounded-full shadow-lg">98% Success</div>
-            </div>
-        </div>
+    <!-- Hero -->
+    <header class="max-w-4xl mx-auto text-center px-6 py-16 md:py-24">
+        <h1 class="text-4xl md:text-6xl font-800 mb-6 tracking-tight">The Ultimate <span class="text-indigo-600">Skill Growth</span> Engine.</h1>
+        <p class="text-lg text-slate-500 mb-10">Stop paying for basic courses. Access verified free learning paths and let our AI solve your career doubts in real-time.</p>
     </header>
 
-    <!-- All Types of Career Guidance -->
-    <section id="explore" class="max-w-7xl mx-auto px-6 py-20">
-        <h2 class="text-3xl font-900 mb-4 uppercase italic">Opportunity Explorer</h2>
-        <p class="text-slate-500 mb-12">Click a sector to view roadmaps and salary data.</p>
+    <!-- FREE COURSE LINKS SECTION -->
+    <section id="courses" class="max-w-6xl mx-auto px-6 py-12">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-800 uppercase tracking-widest text-slate-400">Verified Free Learning</h2>
+        </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 card-hover cursor-pointer">
-                <div class="text-4xl mb-4">🩺</div>
-                <h3 class="font-black text-xl mb-2 uppercase">Healthcare</h3>
-                <p class="text-sm text-slate-500">Nursing, Med-Tech, Pharmacy</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Course 1 -->
+            <div class="resource-card bg-white p-6 rounded-2xl">
+                <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full uppercase">Computer Science</span>
+                <h3 class="text-xl font-bold mt-4 mb-2">CS50: Intro to CS</h3>
+                <p class="text-sm text-slate-500 mb-6">Harvard University's legendary course. Learn logic, C, Python, and SQL.</p>
+                <a href="https://pll.harvard.edu/course/cs50-introduction-computer-science" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
             </div>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 card-hover cursor-pointer">
-                <div class="text-4xl mb-4">💻</div>
-                <h3 class="font-black text-xl mb-2 uppercase">Tech & AI</h3>
-                <p class="text-sm text-slate-500">Coding, Cybersecurity, Data</p>
+
+            <!-- Course 2 -->
+            <div class="resource-card bg-white p-6 rounded-2xl">
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full uppercase">Digital Marketing</span>
+                <h3 class="text-xl font-bold mt-4 mb-2">Google Fundamentals</h3>
+                <p class="text-sm text-slate-500 mb-6">Free certification by Google. Master SEO, Analytics, and Social Media.</p>
+                <a href="https://skillshop.exceedlms.com/student/catalog/list?category_ids=2844-google-ads-certifications" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
             </div>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 card-hover cursor-pointer">
-                <div class="text-4xl mb-4">⚖️</div>
-                <h3 class="font-black text-xl mb-2 uppercase">Legal/Gov</h3>
-                <p class="text-sm text-slate-500">Corporate Law, Public Policy</p>
-            </div>
-            <div class="bg-white p-8 rounded-3xl border border-slate-200 card-hover cursor-pointer">
-                <div class="text-4xl mb-4">🎨</div>
-                <h3 class="font-black text-xl mb-2 uppercase">Creative</h3>
-                <p class="text-sm text-slate-500">UI/UX, Video, Architecture</p>
+
+            <!-- Course 3 -->
+            <div class="resource-card bg-white p-6 rounded-2xl">
+                <span class="text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full uppercase">Skill Growth</span>
+                <h3 class="text-xl font-bold mt-4 mb-2">Khan Academy Portal</h3>
+                <p class="text-sm text-slate-500 mb-6">Everything from SAT prep to advanced Multivariable Calculus for free.</p>
+                <a href="https://www.khanacademy.org" target="_blank" class="text-indigo-600 font-bold flex items-center gap-2 hover:underline">Start Learning →</a>
             </div>
         </div>
     </section>
 
-    <!-- How to Learn Section -->
-    <section id="how-to-learn" class="bg-slate-900 text-white py-24 px-6 overflow-hidden">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-            <div>
-                <h2 class="text-4xl font-900 mb-8 leading-tight">HOW TO LEARN <br><span class="text-indigo-400">ANY SKILL FOR FREE.</span></h2>
-                <div class="space-y-6">
-                    <div class="flex gap-4">
-                        <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center font-bold text-indigo-400">01</div>
-                        <div>
-                            <h4 class="font-bold text-xl">Self-Paced Mastery</h4>
-                            <p class="text-slate-400">Use YouTube, Coursera, and MIT OpenCourseWare for foundation.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center font-bold text-indigo-400">02</div>
-                        <div>
-                            <h4 class="font-bold text-xl">Hands-on Portfolios</h4>
-                            <p class="text-slate-400">Build 3 real projects. Companies in 2026 hire for skills, not just degrees.</p>
-                        </div>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center font-bold text-indigo-400">03</div>
-                        <div>
-                            <h4 class="font-bold text-xl">Shadowing</h4>
-                            <p class="text-slate-400">Connect with mentors on LinkedIn for "Day in the Life" tours.</p>
-                        </div>
-                    </div>
+    <!-- SMART AI CHAT SECTION -->
+    <section id="ai-center" class="max-w-5xl mx-auto px-6 py-20">
+        <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
+            
+            <!-- Left Panel (Info) -->
+            <div class="md:w-1/3 bg-slate-900 text-white p-8">
+                <div class="w-12 h-12 bg-indigo-600 rounded-xl mb-6 flex items-center justify-center pulse">🤖</div>
+                <h2 class="text-2xl font-800 mb-4">Deep Brain AI</h2>
+                <p class="text-slate-400 text-sm leading-relaxed mb-8">This AI is trained to analyze market trends, academic roadmaps, and student doubts.</p>
+                <div class="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-500">
+                    <p>✓ Skill Analysis</p>
+                    <p>✓ Roadmap Generation</p>
+                    <p>✓ Doubt Clearing</p>
                 </div>
             </div>
-            <div class="bg-slate-800 p-8 rounded-[2rem] border border-slate-700 shadow-2xl">
-                <h4 class="font-bold text-indigo-400 mb-4 uppercase tracking-widest text-xs">Recommended Platforms</h4>
-                <ul class="space-y-4">
-                    <li class="flex justify-between border-b border-slate-700 pb-2 italic"><span>Codecademy</span> <span class="text-green-400">FREE</span></li>
-                    <li class="flex justify-between border-b border-slate-700 pb-2 italic"><span>Khan Academy</span> <span class="text-green-400">FREE</span></li>
-                    <li class="flex justify-between border-b border-slate-700 pb-2 italic"><span>Udemy Essentials</span> <span class="text-yellow-400">PAID</span></li>
-                </ul>
+
+            <!-- Right Panel (Chat) -->
+            <div class="md:w-2/3 flex flex-col h-[550px]">
+                <div id="chat-box" class="flex-grow p-6 overflow-y-auto flex flex-col gap-4 bg-slate-50">
+                    <div class="ai-msg p-4 text-sm max-w-[85%]">
+                        Hello! I am your 2026 AI Counselor. You can ask me about complex career doubts, salary expectations, or even "How do I become a Data Scientist for free?"
+                    </div>
+                </div>
+                
+                <div class="p-4 border-t flex gap-2 bg-white">
+                    <input type="text" id="user-input" placeholder="Enter your doubt here..." class="flex-grow p-4 bg-slate-100 rounded-xl outline-none focus:ring-2 ring-indigo-500 transition-all font-medium">
+                    <button onclick="askAI()" class="bg-indigo-600 text-white px-8 rounded-xl font-bold active:scale-95 transition">ASK</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- AI Counselor (Functional) -->
-    <section id="ai-counselor" class="max-w-3xl mx-auto px-6 py-24">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-900 mb-2">AI CAREER AGENT</h2>
-            <p class="text-slate-500">Ask about careers, learning paths, or future salaries.</p>
-        </div>
-        
-        <div class="bg-white border border-slate-200 rounded-[2rem] p-6 shadow-xl flex flex-col h-[500px]">
-            <div id="chat-window" class="flex-grow overflow-y-auto mb-4 flex flex-col">
-                <div class="chat-bubble bot">👋 Hello! I'm your AI Mentor. Tell me what subjects you like, or ask me "How do I become a lawyer?"</div>
-            </div>
-            <div class="flex gap-2">
-                <input type="text" id="user-input" placeholder="Ask me anything..." class="w-full bg-slate-100 p-4 rounded-2xl outline-none focus:ring-2 ring-indigo-500 font-medium">
-                <button onclick="handleChat()" class="bg-indigo-600 text-white p-4 rounded-2xl font-bold px-8 active:scale-95 transition">SEND</button>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-white border-t border-slate-200 py-12 text-center text-slate-400 text-sm">
-        <p>© 2026 CAREERPRO Platform. Built for Mobile & Desktop Performance.</p>
+    <footer class="text-center py-12 text-slate-400 text-xs font-bold uppercase tracking-tighter">
+        Data Provided by Global Skill Registry 2026 • EduPath AI
     </footer>
 
     <script>
-        // AI CHAT LOGIC
-        const chatWindow = document.getElementById('chat-window');
+        const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-input');
 
-        function addMessage(text, sender) {
+        function addMessage(text, type) {
             const div = document.createElement('div');
-            div.className = `chat-bubble ${sender}`;
+            div.className = `${type === 'user' ? 'user-msg' : 'ai-msg'} p-4 text-sm max-w-[85%] shadow-sm`;
             div.innerText = text;
-            chatWindow.appendChild(div);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function handleChat() {
-            const val = userInput.value.trim().toLowerCase();
-            if(!val) return;
+        async function askAI() {
+            const query = userInput.value.trim();
+            if(!query) return;
 
-            addMessage(userInput.value, 'user');
+            addMessage(query, 'user');
             userInput.value = '';
 
-            // AI Logic Simulation
+            // Simulate "Analyzing" phase
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'ai-msg p-4 text-xs italic text-slate-400';
+            loadingDiv.innerText = "Analyzing global database and trends...";
+            chatBox.appendChild(loadingDiv);
+
             setTimeout(() => {
-                let response = "That's interesting! To guide you better, are you more into technical tasks or creative arts?";
-                
-                if(val.includes("become") || val.includes("how to")) {
-                    response = "Great question! Generally, you need to: 1. Get a foundation (Degree/Cert), 2. Build a portfolio, and 3. Network on LinkedIn. Which specific career are you asking about?";
-                } else if(val.includes("tech") || val.includes("code") || val.includes("computer")) {
-                    response = "Tech is booming! You should start with Python for AI or HTML/CSS for Web Design. Want a 6-month roadmap?";
-                } else if(val.includes("money") || val.includes("salary")) {
-                    response = "In 2026, the highest paying entry roles are in AI Engineering ($120k+), specialized healthcare ($90k+), and Sustainability Data ($85k+).";
-                } else if(val.includes("law") || val.includes("lawyer")) {
-                    response = "For law, you'll need to focus on Humanities in high school, followed by a JD. I suggest looking into 'AI Law' as a future specialty!";
+                chatBox.removeChild(loadingDiv);
+                let response = "";
+                const q = query.toLowerCase();
+
+                // Advanced AI Response Logic
+                if(q.includes("data scientist") || q.includes("data science")) {
+                    response = "ANALYSIS: To become a Data Scientist for free in 2026: \n1. Learn Python (freeCodeCamp). \n2. Master Statistics (Khan Academy). \n3. Take Harvard's CS50 SQL. \n4. Build a Kaggle Portfolio. \nSalaries currently average $115k/year.";
+                } else if(q.includes("doubt") || q.includes("confused")) {
+                    response = "It's normal to feel confused. My analysis of your doubt suggests you should try 'Career Shadowing'. Pick two fields, watch 'Day in the Life' videos on YouTube, and see which one feels like work you'd enjoy even if it was unpaid.";
+                } else if(q.includes("free") && q.includes("course")) {
+                    response = "Beyond our list above, I recommend checking 'OpenCourseWare' by MIT. They have almost every engineering and physics course available online for zero cost.";
+                } else if(q.includes("future") || q.includes("job")) {
+                    response = "The 2026-2030 job market is shifting toward 'Human-AI Collaboration'. Skills like AI Prompting, Ethics, and Sustainability Management are seeing a 40% increase in hiring.";
+                } else if(q.includes("salary") || q.includes("money")) {
+                    response = "Based on current Google/Glassdoor trends, Tech, Specialized Surgery, and Renewable Energy Engineering are the top 3 highest paying sectors. Would you like a roadmap for one of these?";
+                } else {
+                    response = "That is a great question. Based on my analysis, the best way to handle this is to focus on 'Micro-Credentialing'. Instead of a 4-year plan, focus on 3-month skill blocks. What is your primary interest right now?";
                 }
-                
-                addMessage(response, 'bot');
-            }, 800);
+
+                addMessage(response, 'ai');
+            }, 1200);
         }
 
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('menu-toggle').checked = false;
-            });
+        // Allow Enter key to send message
+        userInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") askAI();
         });
     </script>
 </body>
