@@ -1,245 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PRO-PATH 2026 | Ultimate Career Vault</title>
+    <title>PRO-PATH 2026 | Mobile & Desktop Optimized</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;500;800&display=swap');
-        
-        :root { --primary: #fbbf24; --bg: #0f172a; }
-
-        body { 
-            font-family: 'Bricolage Grotesque', sans-serif; 
-            background-color: var(--bg); 
-            color: #f1f5f9; 
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-
-        .gold-gradient {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .video-card {
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .video-card:hover {
-            transform: translateY(-8px);
-            border-color: #fbbf24;
-            box-shadow: 0 15px 30px -10px rgba(251, 191, 36, 0.2);
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;600;800&display=swap');
+        body { font-family: 'Bricolage Grotesque', sans-serif; background-color: #0f172a; color: #f1f5f9; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         /* Ticker Animation */
         @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .ticker-text { animation: ticker 35s linear infinite; display: inline-block; }
-
-        /* AI Chat Bubbles */
-        .msg { margin-bottom: 12px; padding: 12px 16px; border-radius: 18px; font-size: 14px; max-width: 85%; line-height: 1.5; }
-        .bot { background: #1e293b; color: #e2e8f0; align-self: flex-start; border: 1px solid rgba(255,255,255,0.1); border-bottom-left-radius: 2px; }
-        .user { background: #fbbf24; color: #0f172a; align-self: flex-end; font-weight: 700; border-bottom-right-radius: 2px; }
-
-        /* Filter Tabs */
-        .tab-btn {
-            padding: 10px 24px; border-radius: 99px; font-weight: 700; font-size: 0.75rem; 
-            text-transform: uppercase; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .tab-btn.active { background: #fbbf24; color: #000; border-color: #fbbf24; }
+        .ticker-wrap { background: #fbbf24; color: #000; padding: 10px 0; overflow: hidden; white-space: nowrap; font-weight: 800; font-size: 12px; }
+        .ticker-content { display: inline-block; animation: ticker 40s linear infinite; }
     </style>
 </head>
-<body>
+<body class="overflow-x-hidden">
 
-    <!-- 1. LIVE OPPORTUNITY TICKER (RESTORING FEATURE) -->
-    <div class="w-full bg-amber-400 text-black py-2 overflow-hidden whitespace-nowrap z-[110] relative font-bold uppercase text-[11px]">
-        <div class="ticker-text">
-            🚀 GOOGLE AI RESIDENCY 2026 NOW OPEN • ⚡ SPACEX SOFTWARE INTERNSHIPS • 💼 GOLDMAN SACHS QUANT ROLES • 📈 DATA ANALYTICS FELLOWSHIP ($130K) • 🌐 REMOTE WEB3 DEVELOPER ROLES LIVE • 🎓 HARVARD CS50 2026 EDITION RELEASED
+    <!-- 1. LIVE TICKER -->
+    <div class="ticker-wrap fixed top-0 w-full z-[110]">
+        <div class="ticker-content uppercase">
+            🚀 GOOGLE AI RESIDENCY 2026 • ⚡ SPACEX SOFTWARE INTERNS • 💼 GOLDMAN SACHS QUANT ROLES • 🎓 HARVARD CS50 2026 RELEASED • 📈 DATA ANALYTICS FELLOWSHIP ($135K)
         </div>
     </div>
 
-    <!-- 2. NAVIGATION (RESTORING FEATURE) -->
-    <nav class="sticky top-0 z-[100] bg-slate-950/90 backdrop-blur-xl px-6 py-4 border-b border-white/5">
+    <!-- 2. NAVIGATION -->
+    <nav class="sticky top-[40px] z-[100] bg-slate-900/80 backdrop-blur-md border-b border-white/10 px-4 md:px-8 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-800 tracking-tighter">PRO<span class="text-amber-400">PATH</span></div>
-            <ul class="hidden md:flex gap-10 font-medium text-slate-400 text-xs uppercase tracking-widest">
-                <li><a href="#vault" class="hover:text-amber-400">Skill Vault</a></li>
-                <li><a href="#ai-counselor" class="hover:text-amber-400">AI Mentor</a></li>
-                <li><a href="#opportunities" class="hover:text-amber-400">Live Roles</a></li>
-            </ul>
-            <button class="bg-amber-400 text-black px-6 py-2 rounded-full font-bold text-xs uppercase hover:scale-105 transition">Elite Access</button>
+            <div class="text-xl md:text-2xl font-800 tracking-tighter">PRO<span class="text-amber-400">PATH</span></div>
+            <div class="hidden md:flex gap-8 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                <a href="#vault" class="hover:text-amber-400 transition">Vault</a>
+                <a href="#ai-counselor" class="hover:text-amber-400 transition">AI Mentor</a>
+            </div>
+            <button class="bg-amber-400 text-black px-4 py-2 rounded-lg font-bold text-[10px] uppercase active:scale-95 transition">Login</button>
         </div>
     </nav>
 
-    <!-- 3. HERO SECTION (REWORKING BUTTONS) -->
-    <header class="max-w-7xl mx-auto px-6 pt-24 pb-24 text-center">
-        <h1 class="text-6xl md:text-8xl font-800 mb-8 leading-tight tracking-tighter">
-            Master the <span class="gold-gradient">Top 1%.</span>
+    <!-- 3. HERO SECTION -->
+    <header class="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center">
+        <h1 class="text-5xl md:text-8xl font-800 mb-6 leading-tight tracking-tighter">
+            Build Your <span class="text-amber-400">Future.</span>
         </h1>
-        <p class="max-w-3xl mx-auto text-slate-400 text-lg md:text-xl mb-12">
-            Generic tutorials are over. Access 40+ high-income roadmaps and live career intelligence for the 2026 economy.
+        <p class="max-w-2xl mx-auto text-slate-400 text-base md:text-xl mb-10">
+            Stop watching, start building. Access 40+ high-income roadmaps optimized for the 2026 job market.
         </p>
-        <div class="flex flex-col sm:flex-row gap-6 justify-center">
-            <button onclick="scrollToSection('vault')" class="bg-amber-400 text-black px-12 py-5 rounded-full font-800 text-lg hover:bg-amber-300 shadow-[0_0_30px_rgba(251,191,36,0.2)] uppercase tracking-tighter transition active:scale-95">
-                Explore 40+ Skills
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button onclick="document.getElementById('vault').scrollIntoView({behavior:'smooth'})" class="bg-amber-400 text-black px-8 py-4 rounded-full font-800 text-lg active:scale-95 transition shadow-lg shadow-amber-400/20">
+                Start Learning
             </button>
-            <button onclick="scrollToSection('ai-counselor')" class="bg-white/5 border border-white/10 px-12 py-5 rounded-full font-800 text-lg hover:bg-white/10 transition">
-                Consult AI
+            <button onclick="document.getElementById('ai-counselor').scrollIntoView({behavior:'smooth'})" class="bg-white/5 border border-white/10 px-8 py-4 rounded-full font-800 text-lg hover:bg-white/10 transition">
+                Talk to AI
             </button>
         </div>
     </header>
 
-    <!-- 4. SKILL VAULT (40+ CATEGORIZED VIDEOS) -->
-    <section id="vault" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/5">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-800 mb-8 uppercase tracking-widest">The Skill Vault</h2>
-            <div class="flex flex-wrap justify-center gap-3">
-                <button class="tab-btn active" onclick="filterSkills('all', this)">All Skills</button>
-                <button class="tab-btn" onclick="filterSkills('tech', this)">Coding & AI</button>
-                <button class="tab-btn" onclick="filterSkills('creative', this)">Design & Media</button>
-                <button class="tab-btn" onclick="filterSkills('business', this)">Money & Sales</button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="skill-grid">
-            <!-- JavaScript will populate 30-40 videos here -->
+    <!-- 4. SKILL VAULT (RESPONSIVE GRID) -->
+    <section id="vault" class="max-w-7xl mx-auto px-6 py-12">
+        <h2 class="text-2xl md:text-4xl font-800 mb-8 uppercase tracking-widest text-center">Skill Vault</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="skill-grid">
+            <!-- JavaScript injected content -->
         </div>
     </section>
 
-    <!-- 5. AI COUNSELOR (RESTORING CHAT LOGIC) -->
-    <section id="ai-counselor" class="max-w-7xl mx-auto px-6 py-24 bg-slate-900/40 rounded-[3rem] border border-white/5 shadow-2xl">
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-                <h2 class="text-5xl font-800 mb-6 tracking-tighter leading-tight">Career <br><span class="text-amber-400">Intelligence.</span></h2>
-                <p class="text-slate-400 mb-10 text-lg">Don't guess your future. Ask our AI for current salary data, portfolio reviews, and roadmap verification.</p>
-                <div class="space-y-4">
-                    <div class="flex gap-4 items-center text-sm font-bold text-slate-300">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span> Live Market Scanning
-                    </div>
-                    <div class="flex gap-4 items-center text-sm font-bold text-slate-300">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span> 2026 Salary Forecasts
-                    </div>
-                </div>
+    <!-- 5. AI COUNSELOR -->
+    <section id="ai-counselor" class="max-w-4xl mx-auto px-6 py-20">
+        <div class="bg-slate-800/50 p-6 md:p-10 rounded-[2.5rem] border border-white/5">
+            <h3 class="text-3xl font-800 mb-4 text-center">AI <span class="text-amber-400">Mentor</span></h3>
+            <div id="chat-box" class="h-64 overflow-y-auto mb-4 space-y-3 p-2 text-sm md:text-base">
+                <div class="bg-slate-900 p-4 rounded-2xl border border-white/5">Bot: How can I help you navigate your 2026 career path?</div>
             </div>
-
-            <div class="bg-slate-950 border border-white/10 rounded-[2.5rem] p-6 h-[550px] flex flex-col shadow-2xl">
-                <div id="chat-box" class="flex-grow overflow-y-auto mb-4 space-y-4 p-2 flex flex-col scrollbar-hide">
-                    <div class="msg bot italic">System Online. Describe your current confusion or career goal...</div>
-                </div>
-                <div class="flex gap-2 bg-slate-900 p-2 rounded-2xl border border-white/5">
-                    <input type="text" id="ai-input" placeholder="Type your doubt here..." class="bg-transparent flex-grow p-3 outline-none text-sm text-slate-100 placeholder:text-slate-600">
-                    <button onclick="handleAI()" class="bg-amber-400 text-black px-8 rounded-xl font-black text-xs uppercase hover:bg-amber-300 transition">Analyze</button>
-                </div>
+            <div class="flex gap-2">
+                <input type="text" id="ai-input" placeholder="e.g. Best skill for $150k?" class="bg-slate-900 flex-grow p-4 rounded-xl border border-white/10 outline-none focus:border-amber-400 transition">
+                <button onclick="askAI()" class="bg-amber-400 text-black px-6 rounded-xl font-black uppercase text-xs active:scale-95 transition">Ask</button>
             </div>
         </div>
     </section>
-
-    <footer class="py-20 text-center border-t border-white/5 mt-20">
-        <div class="text-slate-600 text-[10px] tracking-[0.3em] uppercase font-bold">
-            &copy; 2026 PRO-PATH GLOBAL NETWORK • SILICON VALLEY CORE
-        </div>
-    </footer>
 
     <script>
-        // 40+ HIGH-VALUE VIDEOS (FIXED & VERIFIED LINKS)
-        const skillsData = [
-            // TECH
-            { id: "zJSY8tbf_ys", title: "Frontend Development", cat: "tech", sal: "$110k" },
-            { id: "uDIW34h8cmM", title: "Prompt Engineering", cat: "tech", sal: "$200k" },
-            { id: "8hly31xKli0", title: "Cybersecurity Roadmap", cat: "tech", sal: "$150k" },
-            { id: "kxRZkJidkMM", title: "Data Science 2026", cat: "tech", sal: "$160k" },
-            { id: "SyVMma1IkXM", title: "Blockchain Architect", cat: "tech", sal: "$210k" },
-            { id: "Tf1tBSqlAbk", title: "DevOps Roadmap", cat: "tech", sal: "$145k" },
-            { id: "nu_pCVPKzTk", title: "Cloud (AWS) Masterclass", cat: "tech", sal: "$175k" },
-            { id: "3f9_f-v1hS0", title: "Python for AI", cat: "tech", sal: "$135k" },
-            { id: "fqMszONzOnY", title: "Backend (Node.js)", cat: "tech", sal: "$120k" },
-            { id: "6mbwJ2xhgzM", title: "Mobile App (Flutter)", cat: "tech", sal: "$115k" },
-            
-            // CREATIVE
-            { id: "c9Wg6A_zE-w", title: "UI/UX Product Design", cat: "creative", sal: "$130k" },
-            { id: "mS8_h75M3sw", title: "3D Blender Mastery", cat: "creative", sal: "$105k" },
-            { id: "6-f_XvX0k7g", title: "Motion Graphics", cat: "creative", sal: "$95k" },
-            { id: "un50Bs4BvZ8", title: "Elite Video Editing", cat: "creative", sal: "$85k" },
-            { id: "yWfS-vV7XyM", title: "Brand Identity", cat: "creative", sal: "$110k" },
-            { id: "H8H_T6_y_Y8", title: "AR/VR Metaverse Design", cat: "creative", sal: "$160k" },
-
-            // BUSINESS
-            { id: "Z3_M6lXq68E", title: "Trading & Markets", cat: "business", sal: "$200k+" },
-            { id: "h96U_7kF-4A", title: "Growth Marketing", cat: "business", sal: "$140k" },
-            { id: "0p5YPBl_uBI", title: "Product Management", cat: "business", sal: "$155k" },
-            { id: "7vR70_66-fE", title: "E-Commerce Systems", cat: "business", sal: "$125k" },
-            { id: "Fv-Yy_Yy_Y", title: "Sales Psychology", cat: "business", sal: "$145k" }
-            // Add more as needed to reach 40...
+        // VERIFIED 2026 YOUTUBE IDs (Embed-friendly)
+        const videos = [
+            { id: "syh9psBoWBU", title: "5 High-Paying Skills 2026", cat: "Career" },
+            { id: "dgQ92GYC4TI", title: "Data Engineer Roadmap", cat: "Tech" },
+            { id: "Eq8JgI3HmjI", title: "9 AI Skills to Master", cat: "AI" },
+            { id: "zJSY8tbf_ys", title: "Frontend Masterclass", cat: "Web" },
+            { id: "nu_pCVPKzTk", title: "Cloud Computing Guide", cat: "DevOps" },
+            { id: "6mbwJ2xhgzM", title: "Mobile App Development", cat: "Mobile" }
         ];
 
-        // 1. WORKING SCROLL FUNCTION
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // 2. WORKING FILTER ENGINE
-        function renderSkills(filter = 'all') {
+        function loadVideos() {
             const grid = document.getElementById('skill-grid');
-            grid.innerHTML = '';
-            
-            const filtered = filter === 'all' ? skillsData : skillsData.filter(s => s.cat === filter);
-            
-            filtered.forEach(skill => {
-                grid.innerHTML += `
-                    <div class="video-card rounded-[2.5rem] p-3 flex flex-col h-full">
-                        <div class="aspect-video rounded-3xl overflow-hidden mb-5 border border-white/5">
-                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/${skill.id}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div class="p-4 flex flex-col flex-grow">
-                            <h3 class="font-bold text-xl text-white mb-1 tracking-tight">${skill.title}</h3>
-                            <p class="text-[10px] text-amber-400 font-bold uppercase tracking-widest mb-6">Avg Pay: ${skill.sal}</p>
-                            <a href="https://www.youtube.com/watch?v=${skill.id}" target="_blank" class="mt-auto text-white/30 text-[10px] font-bold uppercase tracking-widest hover:text-amber-400 transition">Launch Course →</a>
-                        </div>
+            grid.innerHTML = videos.map(v => `
+                <div class="bg-slate-900 rounded-[2rem] p-4 border border-white/5 hover:border-amber-400/50 transition">
+                    <div class="video-container mb-4">
+                        <iframe src="https://www.youtube.com/embed/${v.id}" frameborder="0" allowfullscreen></iframe>
                     </div>
-                `;
-            });
+                    <div class="flex justify-between items-center px-2">
+                        <h4 class="font-bold text-sm md:text-base">${v.title}</h4>
+                        <span class="text-[9px] bg-amber-400/10 text-amber-400 px-2 py-1 rounded-full font-bold uppercase">${v.cat}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function filterSkills(cat, btn) {
-            renderSkills(cat);
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        // 3. WORKING AI CHAT ENGINE
-        function handleAI() {
-            const chatBox = document.getElementById('chat-box');
+        function askAI() {
             const input = document.getElementById('ai-input');
-            const val = input.value.trim();
-            if(!val) return;
+            const chat = document.getElementById('chat-box');
+            if(!input.value) return;
 
-            const userMsg = document.createElement('div');
-            userMsg.className = "msg user";
-            userMsg.innerText = val;
-            chatBox.appendChild(userMsg);
-            input.value = '';
-
+            chat.innerHTML += `<div class="bg-amber-400 text-black p-4 rounded-2xl font-bold self-end text-right ml-12">${input.value}</div>`;
+            const val = input.value.toLowerCase();
+            input.value = "";
+            
             setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = "msg bot";
-                let reply = "<b>DIAGNOSTIC:</b> Your query points toward a High-Value niche. In 2026, the best way to start is to complete 2 projects from our Skill Vault and update your LinkedIn with 'Proof of Work' rather than just certificates.";
-                
-                if(val.toLowerCase().includes('salary') || val.toLowerCase().includes('money')) {
-                    reply = "<b>SALARY DATA:</b> Most roles listed in our vault have seen a 15% increase in 2026 due to AI-integration. Specialized Prompt Engineers and Blockchain Architects are currently leading the market at $200k+ base.";
-                }
-
-                botMsg.innerHTML = reply;
-                chatBox.appendChild(botMsg);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 1200);
+                let response = "Interesting. Focus on mastering 'Agentic AI' and 'System Design' for the highest leverage in 2026.";
+                if(val.includes("money") || val.includes("salary")) response = "Data Engineering and Cybersecurity currently offer the fastest path to $130k+ in the current market.";
+                chat.innerHTML += `<div class="bg-slate-900 p-4 rounded-2xl border border-white/5 mr-12">Bot: ${response}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 600);
         }
 
-        // Initial Load
-        renderSkills();
-        document.getElementById('ai-input').addEventListener("keypress", (e) => { if (e.key === "Enter") handleAI(); });
+        window.onload = loadVideos;
     </script>
 </body>
 </html>
