@@ -2,196 +2,236 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ProPath Max | 2026 Skill Vault</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;600;800&display=swap');
         
-        :root { --primary: #fbbf24; --bg: #0f172a; --card-bg: rgba(30, 41, 59, 0.7); }
-        .light-theme { --bg: #f8fafc; --text: #0f172a; --card-bg: rgba(226, 232, 240, 0.9); }
+        :root { 
+            --primary: #fbbf24; 
+            --bg: #0f172a; 
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-theme { 
+            --bg: #ffffff; 
+            --card-bg: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: rgba(15, 23, 42, 0.1);
+        }
 
         body { 
             font-family: 'Bricolage Grotesque', sans-serif; 
             background-color: var(--bg); 
-            transition: background 0.3s ease;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            margin-bottom: 70px; /* Space for mobile nav */
         }
 
-        .video-card { 
+        .glass-card { 
             background: var(--card-bg); 
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 2px solid var(--border);
             border-radius: 2rem; 
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .video-card:hover { transform: translateY(-12px); border-color: #fbbf24; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); }
-        
-        .watched { border: 3px solid #10b981 !important; position: relative; }
-        .watched::after { 
-            content: '✓ MASTERED'; 
-            position: absolute; top: 15px; left: 15px; 
-            background: #10b981; color: white; 
-            padding: 6px 14px; border-radius: 10px; 
-            font-size: 12px; font-weight: 800; z-index: 20;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .filter-btn.active { background-color: #fbbf24; color: #000; border-color: #fbbf24; }
-        #sidebar { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .video-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--primary);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Progress Circle */
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        /* Mobile Bottom Nav (Android Style) */
+        @media (min-width: 768px) { .mobile-nav { display: none; } }
+        @media (max-width: 767px) { 
+            .desktop-sidebar { display: none; }
+            .hero-title { font-size: 2.5rem !important; }
+        }
+
         .sidebar-hide { transform: translateX(-100%); }
     </style>
 </head>
-<body class="text-slate-100">
+<body>
 
-    <!-- SIDEBAR MENU -->
-    <aside id="sidebar" class="fixed top-0 left-0 h-full w-80 bg-slate-900 border-r border-white/10 z-[300] sidebar-hide p-10">
-        <div class="flex justify-between items-center mb-12">
-            <h2 class="font-800 text-3xl italic">PRO<span class="text-amber-400">PATH</span></h2>
-            <button onclick="toggleMenu()" class="text-3xl hover:text-amber-400 transition">✕</button>
+    <!-- SIDEBAR (DESKTOP) -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-80 bg-slate-900 border-r border-white/10 z-[300] sidebar-hide p-8 desktop-sidebar">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="font-800 text-2xl text-white italic">PRO<span class="text-amber-400">PATH</span></h2>
+            <button onclick="toggleMenu()" class="text-white hover:text-amber-400">✕</button>
         </div>
-        <nav class="space-y-6">
-            <p class="text-xs text-slate-500 font-bold uppercase tracking-[0.2em]">User Profile</p>
-            <div class="flex items-center gap-4 bg-white/5 p-4 rounded-2xl mb-4">
-                <div class="text-3xl">🔥</div>
-                <div>
-                    <p class="text-xs opacity-50 font-bold">STREAK</p>
-                    <p class="text-xl font-black text-amber-400">4 Days</p>
+        <div class="space-y-4">
+            <div class="p-6 bg-white/5 rounded-3xl border border-white/10">
+                <p class="text-xs text-amber-400 font-black uppercase mb-2">Mastery Status</p>
+                <h4 id="statusText" class="text-white text-xl font-bold">Beginner</h4>
+                <div class="w-full bg-slate-800 h-2 rounded-full mt-4">
+                    <div id="sideBarProgress" class="bg-amber-400 h-full rounded-full w-0 transition-all duration-1000"></div>
                 </div>
             </div>
-            
-            <a href="#" class="block p-4 rounded-2xl bg-amber-400 text-black font-extrabold text-lg">🏠 My Dashboard</a>
-            <a href="#vault" onclick="toggleMenu()" class="block p-4 rounded-2xl hover:bg-white/5 transition text-lg font-semibold">🚀 Skill Vault</a>
-            
-            <div class="mt-12 p-6 bg-white/5 rounded-3xl">
-                <p class="text-xs uppercase opacity-60 mb-4 font-bold tracking-widest">Mastery Level</p>
-                <div class="w-full bg-slate-800 h-3 rounded-full mb-3">
-                    <div id="sidebarBar" class="bg-amber-400 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
-                </div>
-                <p id="sidebarPercent" class="text-sm font-black text-amber-400">0%</p>
-            </div>
-        </nav>
+            <nav class="space-y-2 mt-8">
+                <a href="#" class="flex items-center gap-4 p-4 bg-amber-400 text-black rounded-2xl font-bold"><span>🏠</span> Dashboard</a>
+                <a href="#" class="flex items-center gap-4 p-4 text-white hover:bg-white/5 rounded-2xl transition"><span>📈</span> Career Analytics</a>
+                <a href="#" class="flex items-center gap-4 p-4 text-white hover:bg-white/5 rounded-2xl transition"><span>🏆</span> Certificates</a>
+            </nav>
+        </div>
     </aside>
 
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-[100] bg-slate-900/95 backdrop-blur-xl p-5 border-b border-white/10">
+    <!-- TOP NAV -->
+    <nav class="sticky top-0 z-[100] bg-white/5 backdrop-blur-xl border-b border-[var(--border)] p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-6">
-                <button onclick="toggleMenu()" class="bg-white/5 p-3 rounded-xl hover:bg-amber-400 hover:text-black transition text-2xl">☰</button>
-                <h1 class="font-800 text-2xl tracking-tighter uppercase hidden sm:block">Pro<span class="text-amber-400">Path</span></h1>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleMenu()" class="hidden md:block p-3 glass-card hover:bg-amber-400 hover:text-black transition">☰</button>
+                <div class="text-2xl font-800 tracking-tighter">PRO<span class="text-amber-400">PATH</span></div>
             </div>
             
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex flex-col items-end">
-                    <span id="navStat" class="text-sm font-black text-amber-400 uppercase tracking-tighter">0/55 Complete</span>
-                    <div class="w-32 h-1.5 bg-slate-800 rounded-full mt-1.5">
-                        <div id="navBar" class="bg-amber-400 h-full rounded-full" style="width: 0%"></div>
-                    </div>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 px-4 py-2 glass-card">
+                    <span class="text-amber-500">🔥</span>
+                    <span class="font-bold text-sm">4 Day Streak</span>
                 </div>
-                <button onclick="toggleTheme()" class="p-3 bg-slate-800 rounded-2xl text-xl hover:bg-slate-700 transition">🌓</button>
+                <button onclick="toggleTheme()" class="p-3 glass-card text-xl">🌓</button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO & FILTERS -->
-    <header class="px-6 py-20 text-center max-w-5xl mx-auto">
-        <span class="bg-amber-400/10 text-amber-400 px-6 py-2.5 rounded-full text-sm font-black tracking-[0.3em] uppercase mb-8 inline-block border border-amber-400/20">Learning Experience 2.0</span>
-        <h2 class="text-6xl md:text-8xl font-800 leading-[1] mb-10 tracking-tight">Your 2026 <span class="text-amber-400">Vault.</span></h2>
-        
-        <div class="relative max-w-2xl mx-auto mb-10">
-            <input type="text" id="searchInput" onkeyup="searchSkills()" placeholder="Search AI, Hacking, Systems..." 
-            class="w-full bg-slate-800/50 border-2 border-white/5 p-6 rounded-[2.5rem] outline-none focus:border-amber-400 focus:ring-8 focus:ring-amber-400/10 transition-all text-lg shadow-2xl">
-        </div>
-
-        <!-- CATEGORY FILTERS -->
-        <div id="filter-bar" class="flex flex-wrap justify-center gap-3 mb-10">
-            <button onclick="filterCat('All')" class="filter-btn active border border-white/10 px-6 py-2 rounded-full text-sm font-bold uppercase transition hover:border-amber-400">All</button>
-            <button onclick="filterCat('AI')" class="filter-btn border border-white/10 px-6 py-2 rounded-full text-sm font-bold uppercase transition hover:border-amber-400">AI & Agents</button>
-            <button onclick="filterCat('Tech')" class="filter-btn border border-white/10 px-6 py-2 rounded-full text-sm font-bold uppercase transition hover:border-amber-400">Tech & Ops</button>
-            <button onclick="filterCat('Security')" class="filter-btn border border-white/10 px-6 py-2 rounded-full text-sm font-bold uppercase transition hover:border-amber-400">Cybersecurity</button>
-            <button onclick="filterCat('Future')" class="filter-btn border border-white/10 px-6 py-2 rounded-full text-sm font-bold uppercase transition hover:border-amber-400">Future Tech</button>
-        </div>
-    </header>
-
-    <!-- SKILL VAULT -->
-    <main id="vault" class="max-w-7xl mx-auto px-6 pb-32">
-        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <!-- Content Injected via JS -->
-        </div>
-    </main>
-
-    <!-- AI CHAT MENTOR -->
-    <div class="fixed bottom-8 right-8 z-[200]">
-        <div id="chat-window" class="hidden w-96 h-[500px] bg-slate-900 border border-white/10 rounded-[2.5rem] shadow-2xl mb-6 flex flex-col overflow-hidden">
-            <div class="bg-amber-400 p-6 text-black font-black flex justify-between items-center text-lg">
-                <span>CAREER COACH</span>
-                <button onclick="toggleChat()" class="text-2xl">✕</button>
-            </div>
-            <div id="chat-history" class="flex-grow p-6 overflow-y-auto text-sm space-y-5 bg-slate-950/50">
-                <div class="bg-slate-800 p-4 rounded-3xl rounded-tl-none leading-relaxed">I've added 15+ new courses! Try asking me about **Quantum Computing** or **Ethical Hacking**.</div>
-            </div>
-            <div class="p-4 bg-slate-900 border-t border-white/5 flex gap-3">
-                <input type="text" id="chatInput" class="bg-slate-800 w-full p-4 rounded-2xl outline-none text-sm" placeholder="Ask anything...">
-                <button onclick="askBot()" class="bg-amber-400 text-black px-6 rounded-2xl font-black text-xl hover:scale-105 transition">↑</button>
-            </div>
-        </div>
-        <button onclick="toggleChat()" class="bg-amber-400 text-black w-20 h-20 rounded-full shadow-2xl flex items-center justify-center text-4xl hover:scale-110 transition active:scale-90 border-4 border-slate-900">
-            💬
+    <!-- MOBILE BOTTOM NAV (ANDROID) -->
+    <div class="mobile-nav fixed bottom-0 left-0 w-full bg-slate-900 border-t border-white/10 flex justify-around p-4 z-[400]">
+        <button onclick="window.scrollTo(0,0)" class="flex flex-col items-center gap-1 text-amber-400">
+            <span class="text-xl">🏠</span><span class="text-[10px] font-bold">HOME</span>
+        </button>
+        <button onclick="toggleChat()" class="flex flex-col items-center gap-1 text-slate-400">
+            <span class="text-xl">💬</span><span class="text-[10px] font-bold">MENTOR</span>
+        </button>
+        <button onclick="toggleMenu()" class="flex flex-col items-center gap-1 text-slate-400">
+            <span class="text-xl">👤</span><span class="text-[10px] font-bold">PROFILE</span>
         </button>
     </div>
 
+    <!-- MAIN CONTENT -->
+    <header class="px-6 py-12 md:py-20 text-center max-w-5xl mx-auto">
+        <h1 class="hero-title text-5xl md:text-8xl font-800 leading-tight mb-8">Elevate your <br><span class="text-amber-400">Skillset.</span></h1>
+        
+        <!-- Stats Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="glass-card p-4">
+                <p class="text-[10px] uppercase font-black opacity-50">Completed</p>
+                <p id="statDone" class="text-2xl font-bold">0</p>
+            </div>
+            <div class="glass-card p-4">
+                <p class="text-[10px] uppercase font-black opacity-50">Remaining</p>
+                <p id="statLeft" class="text-2xl font-bold">55</p>
+            </div>
+            <div class="glass-card p-4">
+                <p class="text-[10px] uppercase font-black opacity-50">XP Earned</p>
+                <p id="statXP" class="text-2xl font-bold">0</p>
+            </div>
+            <div class="glass-card p-4 border-amber-400/50">
+                <p class="text-[10px] uppercase font-black opacity-50">Global Rank</p>
+                <p class="text-2xl font-bold text-amber-400">#1.2k</p>
+            </div>
+        </div>
+
+        <div class="relative max-w-2xl mx-auto mb-8">
+            <input type="text" id="searchInput" onkeyup="searchSkills()" placeholder="Search from 55+ Courses..." 
+            class="w-full glass-card p-5 md:p-6 outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 text-lg">
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="flex overflow-x-auto gap-2 pb-4 no-scrollbar justify-start md:justify-center">
+            <button onclick="filterCat('All')" class="whitespace-nowrap px-6 py-2 rounded-full glass-card font-bold text-sm">All</button>
+            <button onclick="filterCat('AI')" class="whitespace-nowrap px-6 py-2 rounded-full glass-card font-bold text-sm">AI Agents</button>
+            <button onclick="filterCat('Tech')" class="whitespace-nowrap px-6 py-2 rounded-full glass-card font-bold text-sm">Tech & Dev</button>
+            <button onclick="filterCat('Future')" class="whitespace-nowrap px-6 py-2 rounded-full glass-card font-bold text-sm">Future Tech</button>
+            <button onclick="filterCat('Security')" class="whitespace-nowrap px-6 py-2 rounded-full glass-card font-bold text-sm">Hacking</button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Courses Here -->
+        </div>
+    </main>
+
+    <!-- AI MENTOR WINDOW -->
+    <div id="chat-window" class="hidden fixed inset-0 md:inset-auto md:bottom-24 md:right-8 z-[500] w-full md:w-96 h-full md:h-[550px] bg-[var(--bg)] md:glass-card flex flex-col overflow-hidden">
+        <div class="bg-amber-400 p-6 text-black font-black flex justify-between items-center">
+            <span>AI CAREER MENTOR</span>
+            <button onclick="toggleChat()" class="text-2xl">✕</button>
+        </div>
+        <div id="chat-history" class="flex-grow p-6 overflow-y-auto space-y-4">
+            <div class="bg-slate-800 text-white p-4 rounded-3xl rounded-tl-none text-sm">Welcome back! Ready to master one of the 55 new skills today?</div>
+        </div>
+        <div class="p-4 border-t border-[var(--border)] flex gap-2">
+            <input type="text" id="chatInput" class="w-full p-4 glass-card outline-none text-sm" placeholder="Ask about salaries...">
+            <button onclick="askBot()" class="bg-amber-400 text-black px-6 rounded-2xl font-bold">↑</button>
+        </div>
+    </div>
+
     <script>
-        const skills = [
-            // AI & AGENTS
-            { id: "InowktzMfK0", title: "7 Free AI Courses for 2026 Mastery", cat: "AI", sal: "$180k" },
-            { id: "VfVxJIoQLIA", title: "Agentic AI Roadmap: Building LLM Apps", cat: "AI", sal: "$210k" },
-            { id: "mS8_h75M3sw", title: "Machine Learning Full Course 2026", cat: "AI", sal: "$165k" },
-            { id: "fUkkXYs2Luo", title: "5 Best AI Certifications (Google/AWS)", cat: "AI", sal: "$175k" },
-            { id: "OnL_Y2xrpt4", title: "Deep Learning Foundations (Full Course)", cat: "AI", sal: "$190k" },
-
-            // TECH & OPS
-            { id: "lx2g61Xo400", title: "Backend Systems Design for Scale", cat: "Tech", sal: "$180k" },
-            { id: "7fPUAi33clw", title: "Next.js 15 Fullstack Course (Next-Gen)", cat: "Tech", sal: "$135k" },
-            { id: "a8FFknuJwB0", title: "AWS Cloud Practitioner (Masterclass)", cat: "Tech", sal: "$145k" },
-            { id: "8ON249GVD3s", title: "Kubernetes & Docker in 2026", cat: "Tech", sal: "$170k" },
-            { id: "iiV_O4Uqj9Q", title: "Modern Data Engineering Roadmap", cat: "Tech", sal: "$160k" },
-            { id: "pW_U_pWqM_o", title: "Advanced SQL for Data Analysts", cat: "Tech", sal: "$120k" },
-
-            // CYBERSECURITY
-            { id: "gbZfgoBN6tA", title: "Official Cisco Ethical Hacking (Free)", cat: "Security", sal: "$155k" },
-            { id: "6_zqDJ9KvZ0", title: "Cybersecurity Roadmap for Beginners", cat: "Security", sal: "$140k" },
-            { id: "ug5P8ZCgpnk", title: "Best Free Hacking Resources 2026", cat: "Security", sal: "$160k" },
-            { id: "Rgvzt0D8bR4", title: "Become a SOC Analyst (One Video)", cat: "Security", sal: "$130k" },
+        const courses = [
+            // AI
+            { id: "InowktzMfK0", title: "Generative AI Roadmap 2026", cat: "AI", sal: "$180k" },
+            { id: "VfVxJIoQLIA", title: "Building AI Agents (Llama 4)", cat: "AI", sal: "$210k" },
+            { id: "fUkkXYs2Luo", title: "AI Certifications Mastery", cat: "AI", sal: "$175k" },
+            { id: "mS8_h75M3sw", title: "ML with Python Expert", cat: "AI", sal: "$160k" },
+            { id: "OnL_Y2xrpt4", title: "Deep Learning Neural Networks", cat: "AI", sal: "$195k" },
+            
+            // SECURITY
+            { id: "gbZfgoBN6tA", title: "Ethical Hacking Full Course", cat: "Security", sal: "$150k" },
+            { id: "6_zqDJ9KvZ0", title: "Cybersecurity Roadmap 2026", cat: "Security", sal: "$140k" },
+            { id: "ug5P8ZCgpnk", title: "Web Penetration Testing", cat: "Security", sal: "$165k" },
+            { id: "Rgvzt0D8bR4", title: "SOC Analyst Professional", cat: "Security", sal: "$130k" },
+            { id: "3Kq1MIfTWCE", title: "Bug Bounty Hunting Guide", cat: "Security", sal: "$200k" },
 
             // FUTURE TECH
-            { id: "tsbCSkvHhMo", title: "Quantum Computing for Absolute Beginners", cat: "Future", sal: "$220k" },
-            { id: "7ecKIAKP2Ck", title: "MIT Introduction to Quantum Technology", cat: "Future", sal: "$240k" },
-            { id: "M576WGiDBdQ", title: "Web3 & Blockchain Development 2026", cat: "Future", sal: "$195k" },
-            { id: "gyMwXuJrbFE", title: "Solidity Smart Contract Masterclass", cat: "Future", sal: "$210k" },
-            { id: "eS0_eS0_eS0", title: "AR/VR Development (Unity 6 Engine)", cat: "Future", sal: "$150k" }
+            { id: "tsbCSkvHhMo", title: "Quantum Computing Foundations", cat: "Future", sal: "$220k" },
+            { id: "7ecKIAKP2Ck", title: "Quantum Algorithms MIT", cat: "Future", sal: "$250k" },
+            { id: "M576WGiDBdQ", title: "Blockchain Architecture", cat: "Future", sal: "$190k" },
+            { id: "gyMwXuJrbFE", title: "Solidity 2026 Masterclass", cat: "Future", sal: "$210k" },
+            { id: "2aYf0nUfDyo", title: "Spatial Computing (Apple Vision)", cat: "Future", sal: "$180k" },
+
+            // TECH & DEV
+            { id: "lx2g61Xo400", title: "Distributed Systems Design", cat: "Tech", sal: "$185k" },
+            { id: "7fPUAi33clw", title: "Next.js 15 + React 19", cat: "Tech", sal: "$140k" },
+            { id: "a8FFknuJwB0", title: "AWS Cloud Expert 2026", cat: "Tech", sal: "$155k" },
+            { id: "8ON249GVD3s", title: "Advanced Kubernetes Ops", cat: "Tech", sal: "$170k" },
+            { id: "iiV_O4Uqj9Q", title: "Modern Data Engineering", cat: "Tech", sal: "$160k" }
+            // Note: In real use, you'd add all 55 here.
         ];
 
-        let watchedSkills = JSON.parse(localStorage.getItem('watchedSkills')) || [];
+        let watched = JSON.parse(localStorage.getItem('proPathWatched')) || [];
 
         function render(data) {
             const grid = document.getElementById('grid');
-            grid.innerHTML = data.map(skill => {
-                const isWatched = watchedSkills.includes(skill.id) ? 'watched' : '';
+            grid.innerHTML = data.map(item => {
+                const isWatched = watched.includes(item.id);
                 return `
-                <div class="video-card ${isWatched}" id="card-${skill.id}">
-                    <div class="relative pb-[56.25%] h-0">
+                <div class="video-card glass-card overflow-hidden ${isWatched ? 'border-emerald-500' : ''}">
+                    <div class="relative pb-[56.25%] bg-black">
                         <iframe class="absolute top-0 left-0 w-full h-full" 
-                        src="https://www.youtube.com/embed/${skill.id}" 
-                        frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        src="https://www.youtube.com/embed/${item.id}" frameborder="0" allowfullscreen></iframe>
                     </div>
-                    <div class="p-8">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="text-[10px] font-black bg-amber-400 text-black px-3 py-1 rounded-lg uppercase tracking-widest">${skill.cat}</span>
-                            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-tight">${skill.sal} AVG</span>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-[10px] font-black bg-amber-400 text-black px-2 py-1 rounded-md uppercase">${item.cat}</span>
+                            <span class="text-[10px] font-bold opacity-60 uppercase">${item.sal} AVG</span>
                         </div>
-                        <h3 class="font-800 text-xl mb-6 leading-tight min-h-[56px]">${skill.title}</h3>
-                        <button onclick="toggleWatched('${skill.id}')" 
-                        class="w-full py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all ${watchedSkills.includes(skill.id) ? 'bg-emerald-500 text-white' : 'bg-white/10 hover:bg-amber-400 hover:text-black'}">
-                            ${watchedSkills.includes(skill.id) ? 'Course Completed' : 'Mark as Complete'}
+                        <h3 class="font-800 text-lg mb-4 h-14 overflow-hidden">${item.title}</h3>
+                        <button onclick="toggleWatched('${item.id}')" 
+                        class="w-full py-3 rounded-xl font-bold text-sm transition-all ${isWatched ? 'bg-emerald-500 text-white' : 'bg-white/10 hover:bg-amber-400 hover:text-black'}">
+                            ${isWatched ? 'MASTERED ✓' : 'MARK COMPLETE'}
                         </button>
                     </div>
                 </div>
@@ -200,55 +240,43 @@
         }
 
         function updateStats() {
-            const total = skills.length;
-            const completed = watchedSkills.length;
-            const percentage = Math.round((completed / total) * 100);
-            document.getElementById('navStat').innerText = `${completed}/${total} Complete`;
-            document.getElementById('navBar').style.width = percentage + '%';
-            document.getElementById('sidebarBar').style.width = percentage + '%';
-            document.getElementById('sidebarPercent').innerText = percentage + '% Mastered';
-        }
-
-        function filterCat(cat) {
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            const count = watched.length;
+            const total = courses.length;
+            const perc = (count / total) * 100;
             
-            if(cat === 'All') render(skills);
-            else render(skills.filter(s => s.cat === cat));
+            document.getElementById('statDone').innerText = count;
+            document.getElementById('statLeft').innerText = total - count;
+            document.getElementById('statXP').innerText = count * 500;
+            document.getElementById('sideBarProgress').style.width = perc + '%';
+            
+            const status = count > 15 ? "Expert" : count > 5 ? "Intermediate" : "Beginner";
+            document.getElementById('statusText').innerText = status;
         }
 
-        function searchSkills() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            render(skills.filter(s => s.title.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q)));
+        function toggleWatched(id) {
+            watched.includes(id) ? watched = watched.filter(i => i !== id) : watched.push(id);
+            localStorage.setItem('proPathWatched', JSON.stringify(watched));
+            render(courses);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
         }
 
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('sidebar-hide'); }
         function toggleChat() { document.getElementById('chat-window').classList.toggle('hidden'); }
-        function toggleTheme() { document.body.classList.toggle('light-theme'); }
-
-        function toggleWatched(id) {
-            watchedSkills.includes(id) ? watchedSkills = watchedSkills.filter(i => i !== id) : watchedSkills.push(id);
-            localStorage.setItem('watchedSkills', JSON.stringify(watchedSkills));
-            render(skills);
+        
+        function filterCat(cat) {
+            if(cat === 'All') render(courses);
+            else render(courses.filter(c => c.cat === cat));
         }
 
-        function askBot() {
-            const input = document.getElementById('chatInput');
-            const history = document.getElementById('chat-history');
-            if(!input.value) return;
-            history.innerHTML += `<div class="bg-amber-400 text-black p-4 rounded-3xl rounded-tr-none text-right font-black ml-auto w-fit shadow-lg">${input.value}</div>`;
-            const q = input.value.toLowerCase();
-            input.value = "";
-            setTimeout(() => {
-                let reply = "I recommend the **Quantum Computing** course—it's the next big frontier for 2026 salaries.";
-                if(q.includes("hack") || q.includes("security")) reply = "I've added the new Cisco Ethical Hacking course to your vault. Check the 'Security' tab!";
-                history.innerHTML += `<div class="bg-slate-800 p-4 rounded-3xl rounded-tl-none">Mentor: ${reply}</div>`;
-                history.scrollTop = history.scrollHeight;
-            }, 600);
+        function searchSkills() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            render(courses.filter(c => c.title.toLowerCase().includes(q)));
         }
 
-        render(skills);
+        render(courses);
     </script>
 </body>
 </html>
